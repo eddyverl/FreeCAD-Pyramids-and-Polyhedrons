@@ -35,18 +35,11 @@ from PySide import QtGui, QtCore
 
 
 def say(s):
-	#FreeCAD.Console.PrintMessage(str(s)+"\n")
 	msg = QtGui.QMessageBox()
-
 	msg.setIcon(QtGui.QMessageBox.Information)
-	
 	msg.setText(s)
-	msg.setInformativeText("This is additional information")
 	msg.setWindowTitle("Message")
-	msg.setDetailedText("The details are as follows:")
-	msg.setStandardButtons(QtGui.QMessageBox.Ok | QtGui.QMessageBox.Cancel)
-	#msg.buttonClicked.connect(msgbtn)
-	
+	msg.setStandardButtons(QtGui.QMessageBox.Ok )	
 	retval = msg.exec_()
 
 
@@ -167,7 +160,6 @@ class PyramidDialog(QtGui.QWidget):
 
 
 		self.setLayout(grid)   
-		#self.setMinimumSize(300, 285)
 		self.move(500, 350)
 		self.setWindowTitle('Pyramid as FreeCad-Part')    
 		self.show()
@@ -209,14 +201,11 @@ class PyramidDialog(QtGui.QWidget):
 			if sidet != 0 :
 				radiust = (sidet/2) / cos ((math.pi - angle_center) / 2)
 	
-			#say(str(n) + "---" + str(height) + "---" + str(diamb) + "---" + str(diamt) + "---" + str(sideb) + "---"  + str(sidet))		
 			gen_pyramidenstumpf(n,radiusb,radiust,height)
 			self.close()
 
 	def cancel_method(self):
 		self.close()
-
-
         
 
 mainaction = PyramidDialog()
