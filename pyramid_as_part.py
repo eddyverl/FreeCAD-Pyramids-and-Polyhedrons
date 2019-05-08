@@ -14,7 +14,7 @@ def horizontal_regular_polygon_vertexes(sidescount,radius,z):
     vertexes = []
     if radius != 0 :
         for i in range(0,sidescount+1):
-            angle = 2 * math.pi * i / sidescount
+            angle = 2 * math.pi * i / sidescount + math.pi/2
             vertex = (radius * math.cos(angle), radius * math.sin(angle), z)
             vertexes.append(vertex)
     else:
