@@ -211,6 +211,3 @@ class PyramidDialog(QtGui.QWidget):
 mainaction = PyramidDialog()
 
 
-
-
-
