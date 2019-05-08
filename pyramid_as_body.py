@@ -19,28 +19,19 @@ def say(s):
 def pyramid_as_body(n,radiusb,radiust,height):
 
 
-    if (sideb == 0 and diamb == 0 and sidet == 0 and diamt == 0) or n < 3  or height == 0:
+    if (radiusb == 0  and radiust == 0) or n < 3  or height == 0:
         say ("INPUT ERROR")
-
     else:
-	    
+  
 	    # depending values
 	    alfa = 2 * math.pi / n
 	    beta = (math.pi/2 - alfa/2)
+
+	    sideb = abs(radiusb * math.sin( alfa / 2) * 2)
+	    distb = abs(radiusb * math.cos (alfa / 2))
 	    
-	    if sideb != 0 :
-	        radiusb = abs((sideb / 2 )/ math.sin( alfa / 2 ))
-	        distb = abs(sideb / 2 * math.tan(beta))
-	    else:     
-	        sideb = abs(radiusb * math.sin( alfa / 2) * 2)
-	        distb = abs(radiusb * math.cos (alfa / 2))
-	    
-	    if sidet != 0 :
-	        radiust = abs((sidet / 2 )/ math.sin( alfa / 2 ))
-	        distt = abs(sidet / 2 * math.tan(beta))
-	    else:     
-	        sidet = abs(radiust * math.sin( alfa / 2) * 2)
-	        distt = abs(radiust * math.cos (alfa / 2))
+	    sidet = abs(radiust * math.sin( alfa / 2) * 2)
+	    distt = abs(radiust * math.cos (alfa / 2))
 	    
 	    angle2z = math.atan ((distb-distt) / height)
 	    angle2zdeg = math.atan ((distb-distt) / height)* 180 / math.pi
@@ -52,7 +43,7 @@ def pyramid_as_body(n,radiusb,radiust,height):
 	    # cube
 	    cubex_length = round(abs(sideb * 1.2))
 	    cubey_width = round(abs((coneradiusb - distb) * 1.05))
-	    cubez_height = round(abs((height + cubey_width) * 1.05))
+	    cubez_height = round(abs((height + cubey_width) * 1.1))
 	
 	    cubex = - cubex_length / 2
 	    cubey = - distb - cubey_width / math.cos(angle2z)
@@ -209,5 +200,11 @@ class PyramidDialog(QtGui.QWidget):
         
 
 mainaction = PyramidDialog()
+
+
+
+
+
+
 
 
