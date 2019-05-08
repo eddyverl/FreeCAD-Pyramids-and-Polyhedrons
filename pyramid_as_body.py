@@ -1,19 +1,11 @@
-#import FreeCAD
-#import PartDesign
+"""
+author: Eddy Verlinden, Genk Belgium
+licence : MIT
+"""
 
 import math
-
 import sys
 from PySide import QtGui, QtCore
-
-def say(s):
-	msg = QtGui.QMessageBox()
-	msg.move(800,200)
-	msg.setIcon(QtGui.QMessageBox.Information)
-	msg.setText(s)
-	msg.setWindowTitle("Message")
-	msg.setStandardButtons(QtGui.QMessageBox.Ok )	
-	retval = msg.exec_()
 
 
 def pyramid_as_body(n,radiusb,radiust,height):
@@ -95,7 +87,16 @@ def pyramid_as_body(n,radiusb,radiust,height):
 	    Gui.SendMsgToActiveView("ViewFit")
 	
 
+def msgbox(s):
+	msg = QtGui.QMessageBox()
+	msg.move(800,200)
+	msg.setIcon(QtGui.QMessageBox.Information)
+	msg.setText(s)
+	msg.setWindowTitle("Message")
+	msg.setStandardButtons(QtGui.QMessageBox.Ok )	
+	retval = msg.exec_()
 
+	
 class PyramidDialog(QtGui.QWidget):
 
 	def __init__(self):
@@ -200,11 +201,6 @@ class PyramidDialog(QtGui.QWidget):
         
 
 mainaction = PyramidDialog()
-
-
-
-
-
 
 
 
