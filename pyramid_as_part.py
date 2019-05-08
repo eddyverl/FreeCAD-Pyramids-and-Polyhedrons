@@ -57,7 +57,7 @@ def vieleck(anz,size,hoehe): # regelmaesiges vieleck berechnen
 	if size != 0 :
 		punkt=( size*cos(2*math.pi *p/anz),size*sin(2*math.pi*p/anz),hoehe)
 	else:
-		punkt= (0,hoehe)
+		punkt= (0,0,hoehe)
 	list1.append(punkt)
 	#say(list1)
 	return list1
