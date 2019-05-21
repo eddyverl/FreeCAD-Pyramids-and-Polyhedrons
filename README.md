@@ -7,3 +7,7 @@ and polygons:
 - dodecahedron
 - icosahedron
 - truncated icosahedron (football)
+# HowTo:
+- Find the folder via FreeCadMenu/Edit/Preferences/Macro ...
+- Put the python-file(s) in that folder
+- Goto FreeCadMenu/Macro/Macros ...
