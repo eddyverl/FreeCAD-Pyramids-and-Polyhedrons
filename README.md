@@ -1,4 +1,4 @@
-# FreeCad-Pyramids-and_polygons
+# FreeCad-Pyramids-and-polygons
 FreeCad Macros for building pyramids 
 and polygons:
 - tetrahedron
