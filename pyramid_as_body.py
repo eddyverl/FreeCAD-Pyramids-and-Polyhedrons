@@ -188,9 +188,9 @@ class PyramidDialog(QtGui.QWidget):
 		else :
 			angle_center = 2 * math.pi / n
 			if sideb != 0 :
-				radiusb = (sideb/2) / cos ((math.pi - angle_center) / 2)
+				radiusb = (sideb/2) / math.cos ((math.pi - angle_center) / 2)
 			if sidet != 0 :
-				radiust = (sidet/2) / cos ((math.pi - angle_center) / 2)
+				radiust = (sidet/2) / math.cos ((math.pi - angle_center) / 2)
 			
 			pyramid_as_body(n,radiusb,radiust,height)
 			
