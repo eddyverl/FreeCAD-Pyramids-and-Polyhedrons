@@ -9,6 +9,7 @@ and polygons:
 - truncated icosahedron (football)
 
 AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.
+
 AS_BODY = built as with the Part Design workbench. Based on a sphere/cone from wich slices were subtracted
 
 # HowTo:
