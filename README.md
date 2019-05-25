@@ -8,9 +8,11 @@ and polygons:
 - icosahedron
 - truncated icosahedron (football)
 
-AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.
+AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.  
+          If you want to use it in de PartDesign Workbench --> make it active and click on 'create body'
 
-AS_BODY = (only one per document) Is a standard solid from wich slices were subtracted using the Part Design workbench
+AS_BODY = Is a standard solid from wich slices were subtracted using the Part Design workbench.
+          (only one per document, so not the preferred method here)
 
 # HowTo:
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
