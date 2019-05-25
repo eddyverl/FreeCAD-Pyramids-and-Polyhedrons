@@ -10,7 +10,7 @@ and polygons:
 
 AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.
 
-AS_BODY = built as with the Part Design workbench. Based on a sphere/cone from wich slices were subtracted
+AS_BODY = (only one per document) Is a standard solid from wich slices were subtracted using the Part Design workbench
 
 # HowTo:
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
