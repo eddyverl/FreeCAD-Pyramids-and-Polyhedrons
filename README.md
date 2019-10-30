@@ -8,7 +8,7 @@ and polygons:
 - icosahedron
 - truncated icosahedron (football)
 
-Have a look at polyhydrons_screenprint.png (image of all the possibillities)
+Have a look at polyhedrons_screenprint.png (image of all the possibillities)
 
 AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.  
           If you want to use it in de PartDesign Workbench --> make it active and click on 'create body'
