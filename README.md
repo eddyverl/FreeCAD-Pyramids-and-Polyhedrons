@@ -10,8 +10,8 @@ and polygons:
 
 Have a look at polyhedrons_screenprint.png (image of all the possibillities)
 
-AS_PART = the solid is built mathematically as with the Part-workbench Shapebuilder.  
-          If you want to use it in de PartDesign Workbench --> make it active and click on 'create body'
+The solid is built mathematically from faces as with the Part-workbench Shapebuilder.  
+        
 
 # HowTo:
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
