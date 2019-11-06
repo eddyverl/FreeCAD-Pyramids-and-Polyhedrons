@@ -1,5 +1,5 @@
 # FreeCad-Pyramids-and-polygons
-FreeCad Macros for building pyramids 
+FreeCad Workbench / Macros for building pyramids 
 and polygons:
 - tetrahedron
 - hexahedron
@@ -10,10 +10,21 @@ and polygons:
 
 Have a look at polyhedrons_screenprint.png (image of all the possibillities)
 
-The solid is built mathematically from faces as with the Part-workbench Shapebuilder.  
+# 2 versions
+ - the first edition are macros. (you can enter the size of the part in a popup)
+ - the second edition is a workbench with fully scalable parts just like in the part workbench
         
 
-# HowTo:
+# HowTo use the macros
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
-- Put the python-file(s) in that folder
-- Goto FreeCadMenu/Macro/Macros ...
+- Put the macro-file(s) in that folder
+- Goto FreeCadMenu/Macro/Macros, select the macro and execute it.
+
+# Howto use the workbench
+- Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
+- Go to the 'Mod' folder, next to the 'Macro' folder
+- expand the zip-file polyhydrons.zip
+- (re)start FreeCAD
+- The workbench 'polyhydrons' is now in the list, select it
+- click on an icon, and proceed just like in the Part workbench.
+
