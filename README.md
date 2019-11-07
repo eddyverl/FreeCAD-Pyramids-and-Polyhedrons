@@ -16,6 +16,10 @@ Have a look at polyhedrons_screenprint.png (image of all the possibillities)
 
 <img src="https://github.com/eddyverl/FreeCad-Pyramids-and-Polyhedrons/edit/master/workbench.png">
 
+<img src="workbench.png">
+
+
+
 <img src="https://github.com/eddyverl/FreeCad-Pyramids-and-Polyhedrons/edit/master/polyhedrons.png">
 
 
