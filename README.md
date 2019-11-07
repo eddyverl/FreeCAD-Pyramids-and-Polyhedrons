@@ -14,13 +14,9 @@ Have a look at polyhedrons_screenprint.png (image of all the possibillities)
  - the first edition are macros. (you can enter the size of the part in a popup)
  - the second edition is a workbench with fully scalable parts just like in the part workbench
 
-<img src="https://github.com/eddyverl/FreeCad-Pyramids-and-Polyhedrons/edit/master/workbench.png">
-
 <img src="workbench.png">
 
-
-
-<img src="https://github.com/eddyverl/FreeCad-Pyramids-and-Polyhedrons/edit/master/polyhedrons.png">
+<img src="polyhedrons.png">
 
 
 # How to use the macros
