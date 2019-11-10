@@ -21,6 +21,9 @@
 # *                                                                         *
 # ***************************************************************************
 
+# Version 01.00
+
+
 import FreeCAD,FreeCADGui
 import Part
 import math
@@ -148,7 +151,8 @@ class ViewProviderBox:
         return str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/pyramid.svg'
 
 # ===========================================================================    
-
+if FreeCAD.ActiveDocument == None:
+	FreeCAD.newDocument()
 obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Pyramid")   # see https://www.freecadweb.org/wiki/Creating_a_FeaturePython_Box,_Part_II
 Pyramid(obj)
 ViewProviderBox(obj.ViewObject)  
