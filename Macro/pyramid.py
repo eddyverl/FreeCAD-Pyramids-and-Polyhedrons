@@ -21,13 +21,26 @@
 # *                                                                         *
 # ***************************************************************************
 
-# Version 01.00
+
+__Title__   = "Macro_Pyramid"
+__Author__  = "Eddy Verlinden"
+__Version__ = "01.01"
+__Date__    = "2019-11-10"
+__Comment__ = "This macro creates a parametric pyramid."
 
 
 import FreeCAD,FreeCADGui
 import Part
 import math
 import sys
+
+
+def create(obj_name):
+    obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython",obj_name) 
+    fpo = Pyramid(obj)
+    ViewProviderBox(obj.ViewObject)  
+    FreeCAD.ActiveDocument.recompute()
+    return fpo
 
 
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
@@ -42,7 +55,7 @@ def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
         vertexes.append(vertex)
     return vertexes
 
-
+# =========================================================================== 
 
 class Pyramid:
     
@@ -59,6 +72,7 @@ class Pyramid:
         obj.addProperty("App::PropertyInteger","Sidescount","Pyramid","Sidescount of the pyramid").Sidescount = sidescount
         obj.addProperty("App::PropertyLength","Sidelength1","Pyramid","Sidelength1 of the pyramid")
         obj.addProperty("App::PropertyLength","Sidelength2","Pyramid","Sidelength2 of the pyramid")
+        # self.Type = "Pyramid"
         obj.Proxy = self
 
         
@@ -148,12 +162,57 @@ class ViewProviderBox:
         pass
 
     def getIcon(self):
-        return str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/pyramid.svg'
+        return """
+        /* XPM */
+        static char * xpm[] = {
+        "32 32 9 1",
+        " 	c None",
+        ".	c #01035E",
+        "+	c #0F0C1D",
+        "@	c #4849B7",
+        "#	c #5F5E61",
+        "$	c #6567FE",
+        "%	c #8E9192",
+        "&	c #A5A6A4",
+        "*	c #FBFEFA",
+        "                                ",
+        "                                ",
+        "                        #       ",
+        "                       +#       ",
+        "                     &++#       ",
+        "                    #+++%       ",
+        "                   ++.@+&       ",
+        "                 &++.$++&       ",
+        "                %++@$$++&       ",
+        "               #++@$$@++&       ",
+        "             &+++@$$$@++&       ",
+        "            %+.+@$$$$+.+&       ",
+        "           #+.+@$$$$$+.+&       ",
+        "         &+..+@$$$$$@+.+&       ",
+        "        &+..+@$$$$$$@+.+&       ",
+        "       #+..+@$$$$$$$+..+&       ",
+        "      +..++@$$$$$$$$+..+&       ",
+        "    %+++++++@$$$$$$@+..+&       ",
+        "   #++++...+++@$$$$.+..+&       ",
+        "    +........+++@$$+...+&       ",
+        "    &+.........+++.+...+        ",
+        "     #+...........++...+        ",
+        "      #+...........++..+        ",
+        "       +............+..+        ",
+        "       &++...........+.+        ",
+        "         %+++........+++        ",
+        "           &#++.......++        ",
+        "              #++..+++++&       ",
+        "                %++#%           ",
+        "                                ",
+        "                                ",
+        "                                "};
+        """
 
 # ===========================================================================    
+
 if FreeCAD.ActiveDocument == None:
-	FreeCAD.newDocument()
-obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Pyramid")   # see https://www.freecadweb.org/wiki/Creating_a_FeaturePython_Box,_Part_II
-Pyramid(obj)
-ViewProviderBox(obj.ViewObject)  
-FreeCAD.ActiveDocument.recompute()
+    FreeCAD.newDocument()
+
+create ("Pyramid")
+FreeCADGui.SendMsgToActiveView("ViewFit")
