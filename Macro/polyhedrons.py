@@ -25,17 +25,24 @@
 
 __Title__   = "Macro_Polyhedrons"
 __Author__  = "Eddy Verlinden"
-__Version__ = "01.02"
-__Date__    = "2020-01-10"
+__Version__ = "01.03"
+__Date__    = "2020-01-15"
 __Comment__ = "This macro creates parametric polyhedrons."
 
+
+# version 01.02 (2020-01-10) 
+#  => first release
+
+# version 01.03 (2020-01-15) :
+# => added geodesic spheres
+# => some additions to the dialog
 
 import FreeCAD,FreeCADGui
 import Part
 import math
-import sys
+import sys, time
 from PySide import QtGui, QtCore
-
+from FreeCAD import Base
 
 
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
@@ -50,7 +57,7 @@ def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
         vertexes.append(vertex)
     return vertexes
 
-
+       
 # ===========================================================================    
     
 class Tetrahedron:
@@ -287,7 +294,7 @@ class Icosahedron:
         r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
 
 
-        #radius of a pentagram with the same side
+        #radius of a pentagon with the same side
         radius2 = z / math.sin(36 * math.pi/180)/2
         #height of radius2 in the sphere
 
@@ -352,7 +359,7 @@ class Icosahedron_truncated:
         anglefaces = 138.189685104
         r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
 
-        #radius of a pentagram with the same side
+        #radius of a pentagon with the same side
         radius2 = z / math.sin(36 * math.pi/180)/2
 
         #height of radius2 in the sphere
@@ -462,9 +469,144 @@ class Icosahedron_truncated:
 
 # ===========================================================================    
 
+def geodesic_radius2side(radius, div):
+    # approximative experience values! Not all sides are equal!
+    dictsides = {"2":618.034, "3":412.41, "4":312.87,"5":245.09,"6":205.91,"7":173.53,"8":152.96,"9":135.96,"10":121.55}
+    div = int(round(div))
+    if div < 0:
+        return 0
+    if div == 1:
+        return radius * 4 / math.sqrt(10 + 2 * math.sqrt(5))
+    elif div <= 10:
+        factor = dictsides[str(div)]
+        return radius * factor / 1000
+
+def geodesic_side2radius(side, div):
+    # approximative experience values!  Not all sides are equal!
+    dictsides = {"2":618.034, "3":412.41, "4":312.87,"5":245.09,"6":205.91,"7":173.53,"8":152.96,"9":135.96,"10":121.55}
+    div = int(round(div))
+    if div < 0:
+        return 0
+    if div == 1:
+        return side / 4 * math.sqrt(10 + 2 * math.sqrt(5))
+    elif div <= 10:
+        factor = dictsides[str(div)]
+        return side * 1000 / factor
+
+
+# =========================================================================== 
+
+class Geodesic_sphere:
+    
+    radiusvalue = 0  
+    divided_by = 2
+
+
+    def __init__(self, obj, radius=5, div=2):
+        obj.addProperty("App::PropertyLength","Radius","Geodesic","Radius of the sphere").Radius=radius
+        obj.addProperty("App::PropertyLength","Side","Geodesic","Sidelength of the triangles (approximative!)")
+        obj.addProperty("App::PropertyInteger","DividedBy","Geodesic","The sides of the icosahedron are divided in x").DividedBy = div
+
+        obj.Proxy = self
+
+    
+    def geodesic_divide_triangles(self,vertex1, vertex2, vertex3, faces):
+        
+        vector1 = (Base.Vector(vertex2) - Base.Vector(vertex1)) / self.divided_by
+        vector2 = (Base.Vector(vertex3) - Base.Vector(vertex2)) / self.divided_by
+
+        icosaPt={}
+        
+        icosaPt[str(1)] = Base.Vector(vertex1) 
+          
+        for level in range(self.divided_by):
+            l1 = level + 1
+            icosaPt[str(l1*10+1)] = icosaPt[str(1)]+ vector1 * (l1)
+
+            for pt in range(level+1):
+                icosaPt[str(l1*10+2+pt)] = icosaPt[str(l1*10+1)] + vector2 *(pt+1)
+                    
+        
+        for level in range(self.divided_by):
+
+            for point in range(level+1):
+                vertex1x = icosaPt[str(level*10+1+point)].normalize().multiply(self.radiusvalue)
+                vertex2x = icosaPt[str(level*10+11+point)].normalize().multiply(self.radiusvalue)
+                vertex3x = icosaPt[str(level*10+12+point)].normalize().multiply(self.radiusvalue)
+                polygon = Part.makePolygon([vertex1x,vertex2x,vertex3x, vertex1x])
+                faces.append(Part.Face(polygon))
+
+            for point in range(level):
+                vertex1x = icosaPt[str(level*10+1+point)].normalize().multiply(self.radiusvalue)
+                vertex2x = icosaPt[str(level*10+2+point)].normalize().multiply(self.radiusvalue)
+                vertex3x = icosaPt[str(level*10+12+point)].normalize().multiply(self.radiusvalue)
+                polygon = Part.makePolygon([vertex1x,vertex2x,vertex3x, vertex1x])
+                faces.append(Part.Face(polygon))
+      
+        return faces
+
+         
+
+    def execute (self,obj):
+
+        obj.DividedBy = int(round(obj.DividedBy))
+        if obj.DividedBy <= 0:
+            obj.DividedBy = 1
+                    
+            
+        radius = float(obj.Radius)
+        if radius != self.radiusvalue or obj.DividedBy != self.divided_by:
+            self.divided_by = obj.DividedBy
+            obj.Side = geodesic_radius2side(radius, self.divided_by)
+            self.radiusvalue = radius
+        else:
+            self.radiusvalue = geodesic_side2radius(obj.Side,self.divided_by)
+            obj.Radius = self.radiusvalue
+            radius = self.radiusvalue
+            
+        self.divided_by = obj.DividedBy   
+
+        z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))
+        anglefaces = 138.189685104
+        r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
+
+
+        #radius of a pentagram with the same side
+        radius2 = z / math.sin(36 * math.pi/180)/2
+        
+        #height of radius2 in the sphere
+        angle = math.acos(radius2/radius)
+        height = radius * math.sin(angle)
+
+        faces = []
+
+        vertex_bottom = (0,0,-radius)
+        vertexes_low = horizontal_regular_polygon_vertexes(5,radius2, -height)
+        vertexes_high = horizontal_regular_polygon_vertexes(5,radius2, height, math.pi/5)
+        vertex_top = (0,0,radius)
+        
+        for i in range(5):
+            faces = self.geodesic_divide_triangles(vertex_bottom,vertexes_low[i+1],vertexes_low[i],faces)
+
+        
+        for i in range(5):
+            faces = self.geodesic_divide_triangles(vertexes_high[i],vertexes_low[i+1],vertexes_low[i],faces)
+            faces = self.geodesic_divide_triangles(vertexes_low[i+1],vertexes_high[i+1],vertexes_high[i],faces)
+
+        for i in range(5):
+            faces = self.geodesic_divide_triangles(vertex_top,vertexes_high[i],vertexes_high[i+1],faces)
+
+        
+        shell = Part.makeShell(faces)
+        solid = Part.makeSolid(shell)
+        obj.Shape = solid        
+ 
+
+# =========================================================================== 
+
 class ViewProviderBox:
     
-    obj_name = "Dodecahedron"
+    obj_name = "polyhedron"
     
     def __init__(self, obj, obj_name):
         self.obj_name = obj_name
@@ -543,7 +685,7 @@ class ViewProviderBox:
         return None
         
         
- 
+# ===========================================================================  
 
 def msgbox(s):
     msg = QtGui.QMessageBox()
@@ -554,11 +696,13 @@ def msgbox(s):
     retval = msg.exec_()
 
 
-
+# =========================================================================== 
 
 
 
 class polyhedron_dialog(QtGui.QWidget):
+    
+    polyhedronname = ""
 
     def __init__(self):
         super(polyhedron_dialog, self).__init__()
@@ -569,40 +713,55 @@ class polyhedron_dialog(QtGui.QWidget):
         grid = QtGui.QGridLayout()
 
         button = QtGui.QPushButton('Cancel')
+        button.setStyleSheet("color:blue")
         grid.addWidget(button, 10, 3)
         button.clicked.connect(self.cancel_method)
         button2 = QtGui.QPushButton('OK')
+        button2.setStyleSheet("color:blue")
         grid.addWidget(button2, 10, 5)
         button2.clicked.connect(self.slot_method)
 
-        self.comboBox = QtGui.QComboBox(self)
-        grid.addWidget(self.comboBox, 0, 3)
-        self.comboBox.addItem("tetrahedron")
-        self.comboBox.addItem("hexahedron")
-        self.comboBox.addItem("octahedron")
-        self.comboBox.addItem("dodecahedron")
-        self.comboBox.addItem("icosahedron")
-        self.comboBox.addItem("icosahedron-truncated")
-
+        self.listBox = QtGui.QListWidget(self)
+        grid.addWidget(self.listBox, 0, 3)
+        self.listBox.addItem("tetrahedron")
+        self.listBox.addItem("hexahedron")
+        self.listBox.addItem("octahedron")
+        self.listBox.addItem("dodecahedron")
+        self.listBox.addItem("icosahedron")
+        self.listBox.addItem("icosahedron-truncated")
+        self.listBox.addItem("geodesic-sphere")
+        self.listBox.itemClicked.connect(self.listwidgetclicked)
 
         grid.addWidget(QtGui.QLabel('radius :'), 3, 2)
         self.radius = QtGui.QLineEdit("5")
+        self.radius.setStyleSheet("background : white; font-weight:bold; padding-left:10px")
         grid.addWidget(self.radius,3,3)
 
         grid.addWidget(QtGui.QLabel('or sidelength:'), 3, 4)
         self.side = QtGui.QLineEdit()
+        self.side.setStyleSheet("background : white; font-weight:bold; padding-left:10px")
         grid.addWidget(self.side, 3,5)
 
+        self.warning = QtGui.QLineEdit()
+        self.warning.setStyleSheet("color : red")
+        grid.addWidget(self.warning, 5,3)
 
 
         self.setLayout(grid)
         self.move(500, 350)
         self.setWindowTitle('Polyhedrons as FreeCad-Part')
         self.show()
-
+    
+    def listwidgetclicked(self, item):
+        self.polyhedronname = format(item.text())
+        self.warning.clear()
 
 
     def slot_method(self):
+        if self.listBox.selectedItems() == []:
+            self.warning.setText("Select a type!")
+            return
+
 
         if (str(self.radius.text()))== "":
             radius = 0
@@ -615,41 +774,49 @@ class polyhedron_dialog(QtGui.QWidget):
             side = float(str(self.side.text()))
 
         if radius == 0 and side == 0 :
-            msgbox("INPUT ERROR! No values were entered")
-
+            self.warning.setText("INPUT ERROR! No radius nor side!")
+            return    
+            
+        if radius != 0 and side != 0 :
+            self.warning.setText("INPUT ERROR! Only One value allowed!")
+            return
         else :   
             if FreeCAD.ActiveDocument == None:
                 FreeCAD.newDocument() 
                       
-            obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython",self.comboBox.currentText())
+            obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython",self.listBox.currentItem().text())
 
-            if self.comboBox.currentText() == "tetrahedron":
+            if self.listBox.currentItem().text() == "tetrahedron":
                 if radius==0:
                     radius = side / 4 * math.sqrt(6)
                 Tetrahedron(obj, radius)
-            elif self.comboBox.currentText() == "hexahedron":
+            elif self.listBox.currentItem().text() == "hexahedron":
                 if radius == 0:
                     radius = side * 2 / math.sqrt(3)
                 Hexahedron(obj, radius)
-            elif self.comboBox.currentText() == "octahedron":
+            elif self.listBox.currentItem().text() == "octahedron":
                 if radius == 0:
                     radius = side / math.sqrt(2)
                 Octahedron(obj, radius)
-            elif self.comboBox.currentText() == "dodecahedron":
+            elif self.listBox.currentItem().text() == "dodecahedron":
                 if radius == 0:
                     radius = side / 4 *  math.sqrt(3) * (1 + math.sqrt(5))
                 Dodecahedron(obj, radius)
-            elif self.comboBox.currentText() == "icosahedron":
+            elif self.listBox.currentItem().text() == "icosahedron":
                 if radius == 0:
                     radius = side / 4 * math.sqrt(10 + 2 * math.sqrt(5))
                 Icosahedron(obj, radius)
-            elif self.comboBox.currentText() == "icosahedron-truncated":
+            elif self.listBox.currentItem().text() == "icosahedron-truncated":
                 if radius == 0:
                     radius = side / 2 * math.sqrt(10 + 2 * math.sqrt(5))
                 Icosahedron_truncated(obj,radius)
-                
+            elif self.listBox.currentItem().text() == "geodesic-sphere":
+                if radius == 0:
+                    radius = side / 2 * math.sqrt(10 + 2 * math.sqrt(5))
+                Geodesic_sphere(obj,radius)  
+                                  
             obj.ViewObject.Proxy=0
-            ViewProviderBox(obj.ViewObject, self.comboBox.currentText())
+            ViewProviderBox(obj.ViewObject, self.listBox.item)
             FreeCAD.ActiveDocument.recompute()
             FreeCADGui.SendMsgToActiveView("ViewFit")                
 
@@ -660,4 +827,6 @@ class polyhedron_dialog(QtGui.QWidget):
 
 
 mainaction = polyhedron_dialog()
+
+
 
