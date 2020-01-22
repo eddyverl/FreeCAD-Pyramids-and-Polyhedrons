@@ -9,7 +9,6 @@ and polygons:
 - truncated icosahedron (football)
 - geodesic spheres (level 1 to 10)
 
-Have a look at polyhedrons_screenprint.png 
 
 # 2 versions
  - the first edition are macros. (the resulting parts are fully scalable)
@@ -19,13 +18,6 @@ Have a look at polyhedrons_screenprint.png
 
 <img src="polyhedrons.png">
 
-
-# How to use the macros
-- Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
-- Put the macro-file(s) in that folder
-- Goto FreeCadMenu/Macro/Macros, select the macro and execute it.
-- The new pyramid.py is fully scalable (works similar to  Part Cone)
-
 # How to use the workbench
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
 - Go to the 'Mod' folder, next to the 'Macro' folder
@@ -34,3 +26,8 @@ Have a look at polyhedrons_screenprint.png
 - The workbench 'polyhydrons' is now in the list, select it
 - click on an icon, and proceed just like in the Part workbench.
 
+# How to use the macros
+- Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
+- Put the macro-file(s) in that folder
+- Goto FreeCadMenu/Macro/Macros, select the macro and execute it.
+- The new pyramid.py is fully scalable (works similar to  Part Cone)
