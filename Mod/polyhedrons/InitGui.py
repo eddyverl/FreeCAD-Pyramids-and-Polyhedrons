@@ -23,6 +23,13 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
+# Version 01.03
+
+# Version 01.02  (2020-01-15)
+# added geodesic sphere
+
+# version 01.03   (2020-01-23)
+# added hexahedron  (cube)
 
 class PolyhydronsWorkbench (Workbench):
 
@@ -36,7 +43,7 @@ class PolyhydronsWorkbench (Workbench):
     def Initialize(self):
         """This function is executed when FreeCAD starts"""
         import polyhedrons # import here all the needed files that create your FreeCAD commands
-        self.list = ["Pyramid","Tetrahedron","Octahedron","Dodecahedron","Icosahedron","Icosahedron_truncated","Geodesic_sphere"] # A list of command names created in the line above
+        self.list = ["Pyramid","Tetrahedron","Hexahedron","Octahedron","Dodecahedron","Icosahedron","Icosahedron_truncated","Geodesic_sphere"] # A list of command names created in the line above
         self.appendToolbar("Polyhedrons",self.list) # creates a new toolbar with your commands
         self.appendMenu("Polyhedrons",self.list) # creates a new menu
         #self.appendMenu(["An existing Menu","My submenu"],self.list) # appends a submenu to an existing menu
