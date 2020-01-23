@@ -23,7 +23,7 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.02
+# Version 01.03
 
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
