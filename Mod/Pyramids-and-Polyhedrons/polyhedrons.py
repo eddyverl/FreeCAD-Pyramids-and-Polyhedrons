@@ -23,13 +23,16 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.03
+# Version 01.04
 
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
 
 # version 01.03   (2020-01-23)
 # added hexahedron  (cube)
+
+# version 01.04  (2020-01-30)
+# renamed Mod to Pyramids-and-Polyhedrons
 
 import FreeCAD,FreeCADGui
 import Part
@@ -81,7 +84,7 @@ class ViewProviderBox:
         pass
         
     def getIcon(self):
-        return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/polyhedrons/resources/icons/' + (self.obj_name).lower() + '.svg'
+        return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/' + (self.obj_name).lower() + '.svg'
         
     def __getstate__(self):
         return None
@@ -174,7 +177,7 @@ class Pyramid:
 class PyramidCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/pyramid.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/pyramid.svg',
                 'Accel' : "Shift+P", 
                 'MenuText': "Pyramid",
                 'ToolTip' : "Generate a Pyramid with any number of sides"}
@@ -246,7 +249,7 @@ class Tetrahedron:
 class TetrahedronCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/tetrahedron.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/tetrahedron.svg',
                 'Accel' : "Shift+T", 
                 'MenuText': "Tetrahedron",
                 'ToolTip' : "Generate a Tetrahedron"}
@@ -316,7 +319,7 @@ class Hexahedron:
 class HexahedronCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/hexahedron.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/hexahedron.svg',
                 'Accel' : "Shift+T", 
                 'MenuText': "Hexahedron",
                 'ToolTip' : "Generate a Hexahedron"}
@@ -385,7 +388,7 @@ class Octahedron:
 class OctahedronCommand:
         
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/octahedron.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/octahedron.svg',
                 'Accel' : "Shift+O",
                 'MenuText': "Octahedron",
                 'ToolTip' : "Generate a Octahedron"}
@@ -482,7 +485,7 @@ class Dodecahedron:
 
 class DodecahedronCommand:    
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/dodecahedron.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/dodecahedron.svg',
                 'Accel' : "Shift+D",
                 'MenuText': "Dodecahedron",
                 'ToolTip' : "Generate a Dodecahedron"}
@@ -573,7 +576,7 @@ class Icosahedron:
    
 class IcosahedronCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/icosahedron.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/icosahedron.svg',
                 'Accel' : "Shift+I",
                 'MenuText': "Icosahedron",
                 'ToolTip' : "Generate a Icosahedron"}
@@ -731,7 +734,7 @@ class Icosahedron_truncated:
    
 class IcosahedronTrCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/icosahedron_trunc.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/icosahedron_trunc.svg',
                 'Accel' : "Shift+F", 
                 'MenuText': "Icosahedron truncated",
                 'ToolTip' : "Generate a Truncated Icosahedron (football)"}
@@ -894,7 +897,7 @@ class Geodesic_sphere:
    
 class GeodesicSphereCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/polyhedrons/resources/icons/geodesic_sphere.svg',
+        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/resources/icons/geodesic_sphere.svg',
                 'Accel' : "Shift+G", 
                 'MenuText': "Geodesic sphere",
                 'ToolTip' : "Generate Geodesic Spheres"}
