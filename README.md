@@ -18,16 +18,17 @@ and polygons:
 
 <img src="polyhedrons.png">
 
-# How to use the workbench
+
+They can be installed using the addon manager in FreeCadMenu/Tools/Addon Manager
+Select the tab Macros of Workbenches
+Select en click "Install"
+
+
+# How to install the workbench manually
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
 - Go to the 'Mod' folder, next to the 'Macro' folder
-- expand the zip-file polyhedrons.zip
+- download a copy of this repository and put it in the Mod folder
 - (re)start FreeCAD
 - The workbench 'polyhydrons' is now in the list, select it
 - click on an icon, and proceed just like in the Part workbench.
 
-# How to use the macros
-- Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
-- Put the macro-file(s) in that folder
-- Goto FreeCadMenu/Macro/Macros, select the macro and execute it.
-- The new pyramid.py is fully scalable (works similar to  Part Cone)
