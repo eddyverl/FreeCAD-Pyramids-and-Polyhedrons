@@ -20,8 +20,8 @@ and polygons:
 
 
 They can be installed using the addon manager in FreeCadMenu/Tools/Addon Manager
-Select the tab Macros of Workbenches
-Select en click "Install"
+- Select the tab Macros of Workbenches 
+- Select en click "Install"
 
 
 # How to install the workbench manually
