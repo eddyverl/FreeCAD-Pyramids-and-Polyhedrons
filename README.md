@@ -9,6 +9,8 @@ and polygons:
 - truncated icosahedron (football)
 - geodesic spheres (level 1 to 10)
 
+How to use:
+Activate the shape you want. Then adjust the sizes, as with classic Parts.
 
 # 2 versions
  - the first edition are macros. (the resulting parts are fully scalable)
