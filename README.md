@@ -28,7 +28,9 @@ They can be installed using the addon manager in FreeCadMenu/Tools/Addon Manager
 
 # How to install the workbench manually
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
+
     normally:
+    
         * Linux   : in  /home/yourname/.FreeCAD/
         * Windows : in  C:\Users\yourname\AppData\Roaming\FreeCAD\
 - Go to the 'Mod' folder, next to the 'Macro' folder
