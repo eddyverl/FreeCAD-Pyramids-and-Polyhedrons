@@ -34,6 +34,9 @@
 # version 01.04  (2020-01-30)
 # renamed Mod to Pyramids-and-Polyhedrons
 
+# version 01.05  (2020-02-24)
+# Side of icosahedron_truncated was side of icosahedron -> corrected
+
 import FreeCAD,FreeCADGui
 import Part
 import math
@@ -614,10 +617,10 @@ class Icosahedron_truncated:
 
         radius = float(obj.Radius)
         if (radius != self.radiusvalue):
-            obj.Side = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))
+            obj.Side = 4*radius / math.sqrt(10 + 2 * math.sqrt(5)) / 3
             self.radiusvalue = radius
         else:
-            self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4)
+            self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4) / 3
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
             
