@@ -23,7 +23,10 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.05
+# Version 01.06
+
+
+
 
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
@@ -37,6 +40,9 @@
 # version 01.05  (2020-02-24)
 # Side of icosahedron_truncated was side of icosahedron -> corrected
 
+# version 01.06  (2020-12-21)
+# Pyramids are rotatable around the z-axis and start parallel to the x-axis
+
 import FreeCAD,FreeCADGui
 import Part
 import math
@@ -45,11 +51,29 @@ from FreeCAD import Base
 
 
 
+
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
     vertexes = []
     if radius != 0 :
         for i in range(0,sidescount+1):
             angle = 2 * math.pi * i / sidescount + math.pi + startangle
+            vertex = (radius * math.cos(angle), radius * math.sin(angle), z)
+            vertexes.append(vertex)
+    else:
+        vertex = (0,0,z)
+        vertexes.append(vertex)
+    return vertexes
+
+
+
+def horizontal_regular_pyramid_vertexes(sidescount,radius,z, startangle = 0):
+    vertexes = []
+    odd = 0
+    if (sidescount % 2) == 0:
+        odd = 1
+    if radius != 0 :
+        for i in range(0,sidescount+1):
+            angle = 2 * math.pi * i / sidescount + (math.pi * (odd/sidescount + 1/2)) + startangle * math.pi / 180
             vertex = (radius * math.cos(angle), radius * math.sin(angle), z)
             vertexes.append(vertex)
     else:
@@ -104,14 +128,16 @@ class Pyramid:
     sidescountvalue = 0
     side1value = 0
     side2value = 0
+    anglez = 0
 
-    def __init__(self, obj, sidescount = 5,radius_bottom = 2 , radius_top = 4, height = 10):
+    def __init__(self, obj, sidescount = 5,radius_bottom = 2 , radius_top = 4, height = 10, angz = 0):
         obj.addProperty("App::PropertyLength","Radius1","Pyramid","Radius of the pyramid").Radius1=radius_bottom
         obj.addProperty("App::PropertyLength","Radius2","Pyramid","Radius of the pyramid").Radius2=radius_top
         obj.addProperty("App::PropertyLength","Height","Pyramid","Height of the pyramid").Height = height
         obj.addProperty("App::PropertyInteger","Sidescount","Pyramid","Sidescount of the pyramid").Sidescount = sidescount
         obj.addProperty("App::PropertyLength","Sidelength1","Pyramid","Sidelength1 of the pyramid")
         obj.addProperty("App::PropertyLength","Sidelength2","Pyramid","Sidelength2 of the pyramid")
+        obj.addProperty("App::PropertyAngle","Z_rotation","Pyramid","alfa angle around Z").Z_rotation = angz
 
         obj.Proxy = self
 
@@ -125,6 +151,7 @@ class Pyramid:
         sidelength_top = float(obj.Sidelength2)
         sidelength_bottom = float(obj.Sidelength1)
         height = float(obj.Height)
+        anglez = float(obj.Z_rotation)
 
         if radius_bottom != self.radius1value or sidescount != self.sidescountvalue:
             obj.Sidelength1 = radius_bottom * math.sin(angle/2) * 2
@@ -151,8 +178,8 @@ class Pyramid:
         if radius_bottom == 0 and radius_top == 0:
             FreeCAD.Console.PrintMessage("Both radiuses are zero" + "\n")
         else:
-            vertexes_bottom = horizontal_regular_polygon_vertexes(sidescount,radius_bottom,0)
-            vertexes_top = horizontal_regular_polygon_vertexes(sidescount,radius_top,height)
+            vertexes_bottom = horizontal_regular_pyramid_vertexes(sidescount,radius_bottom,0     ,anglez)
+            vertexes_top    = horizontal_regular_pyramid_vertexes(sidescount,radius_top   ,height,anglez)
 
             if radius_bottom != 0:
                 polygon_bottom = Part.makePolygon(vertexes_bottom)
