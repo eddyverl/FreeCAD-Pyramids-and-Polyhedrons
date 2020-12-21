@@ -23,7 +23,7 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.04
+# Version 01.05
 
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
@@ -620,7 +620,7 @@ class Icosahedron_truncated:
             obj.Side = 4*radius / math.sqrt(10 + 2 * math.sqrt(5)) / 3
             self.radiusvalue = radius
         else:
-            self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4) / 3
+            self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4) * 3
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
             
