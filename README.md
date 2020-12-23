@@ -35,7 +35,7 @@ They can be installed using the addon manager in FreeCadMenu/Tools/Addon Manager
         * Windows : in  C:\Users\yourname\AppData\Roaming\FreeCAD\
 - Go to the 'Mod' folder, next to the 'Macro' folder
 - Download a copy of this repository and put it in the Mod folder
-- Simplify the folder-name to "Pyramids-and-Polygons" 
+- Simplify the folder-name to "Pyramids-and-Polyhedrons" 
 - (re)start FreeCAD
 - The workbench 'polyhydrons' is now in the list, select it
 - click on an icon, and proceed just like in the Part workbench.
