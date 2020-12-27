@@ -23,7 +23,7 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.06
+# Version 01.07
 
 
 
@@ -42,6 +42,9 @@
 
 # version 01.06  (2020-12-21)
 # Pyramids are rotatable around the z-axis and start parallel to the x-axis
+
+# version 01.07
+# Some namechanges
 
 
 
