@@ -43,6 +43,8 @@
 # version 01.06  (2020-12-21)
 # Pyramids are rotatable around the z-axis and start parallel to the x-axis
 
+
+
 import FreeCAD,FreeCADGui
 import Part
 import math
@@ -651,7 +653,7 @@ class Icosahedron_truncated:
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
             
-        z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))
+        z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))  # z of base icosahedron
         anglefaces = 138.189685104
         r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
 
