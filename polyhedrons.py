@@ -43,8 +43,11 @@
 # version 01.06  (2020-12-21)
 # Pyramids are rotatable around the z-axis and start parallel to the x-axis
 
-# version 01.07
+# version 01.07  (2020-12-26)
 # Some namechanges
+
+# version 01.07a (2020-12-30)
+# flexibility for installation folder
 
 
 
@@ -87,6 +90,34 @@ def horizontal_regular_pyramid_vertexes(sidescount,radius,z, startangle = 0):
     return vertexes
 
 
+def getWorkbenchFolder():
+
+    import os.path
+    from os import path
+    
+    import workbenchfolders
+    
+    basedir = str(FreeCAD.getUserAppDataDir())
+    folder = ""
+    
+    for tryfolder in workbenchfolders.recommended_folders:
+            if path.exists(basedir + tryfolder):
+                    folder = basedir + tryfolder
+                    return folder
+    
+    for tryfolder in workbenchfolders.user_chosen_folders:
+            if path.exists(basedir + tryfolder):
+                    folder = basedir + tryfolder
+                    return folder
+            if path.exists(tryfolder):
+                    folder = tryfolder
+                    return folder
+                    
+    return ""
+        
+        
+ 
+
 # ===========================================================================    
 
 class ViewProviderBox:
@@ -116,7 +147,8 @@ class ViewProviderBox:
         pass
         
     def getIcon(self):
-        return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/' + (self.obj_name).lower() + '.svg'
+        #return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/' + (self.obj_name).lower() + '.svg'
+        return getWorkbenchFolder() + "/Resources/Icons/' + (self.obj_name).lower() + '.svg'"
         
     def __getstate__(self):
         return None
@@ -212,7 +244,7 @@ class Pyramid:
 class PyramidCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/pyramid.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/pyramid.svg',
                 'Accel' : "Shift+P", 
                 'MenuText': "Pyramid",
                 'ToolTip' : "Generate a Pyramid with any number of sides"}
@@ -284,7 +316,7 @@ class Tetrahedron:
 class TetrahedronCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/tetrahedron.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/tetrahedron.svg',
                 'Accel' : "Shift+T", 
                 'MenuText': "Tetrahedron",
                 'ToolTip' : "Generate a Tetrahedron"}
@@ -354,7 +386,7 @@ class Hexahedron:
 class HexahedronCommand:
     
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/hexahedron.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/hexahedron.svg',
                 'Accel' : "Shift+T", 
                 'MenuText': "Hexahedron",
                 'ToolTip' : "Generate a Hexahedron"}
@@ -423,7 +455,7 @@ class Octahedron:
 class OctahedronCommand:
         
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/octahedron.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/octahedron.svg',
                 'Accel' : "Shift+O",
                 'MenuText': "Octahedron",
                 'ToolTip' : "Generate a Octahedron"}
@@ -520,7 +552,7 @@ class Dodecahedron:
 
 class DodecahedronCommand:    
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/dodecahedron.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/dodecahedron.svg',
                 'Accel' : "Shift+D",
                 'MenuText': "Dodecahedron",
                 'ToolTip' : "Generate a Dodecahedron"}
@@ -611,7 +643,7 @@ class Icosahedron:
    
 class IcosahedronCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/icosahedron.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron.svg',
                 'Accel' : "Shift+I",
                 'MenuText': "Icosahedron",
                 'ToolTip' : "Generate a Icosahedron"}
@@ -641,7 +673,7 @@ class Icosahedron_truncated:
     radiusvalue = 0  
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius").Radius=radius
+        obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius  of basic icosahedron").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Icosahedron_truncated","Sidelength")
         obj.Proxy = self
 
@@ -769,7 +801,7 @@ class Icosahedron_truncated:
    
 class IcosahedronTrCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/icosahedron_trunc.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron_trunc.svg',
                 'Accel' : "Shift+F", 
                 'MenuText': "Icosahedron truncated",
                 'ToolTip' : "Generate a Truncated Icosahedron (football)"}
@@ -916,14 +948,14 @@ class Geodesic_sphere:
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertex_bottom,vertexes_low[i+1],vertexes_low[i],faces)
 
-        
+       
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertexes_high[i],vertexes_low[i+1],vertexes_low[i],faces)
             faces = self.geodesic_divide_triangles(vertexes_low[i+1],vertexes_high[i+1],vertexes_high[i],faces)
 
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertex_top,vertexes_high[i],vertexes_high[i+1],faces)
-
+    
         
         shell = Part.makeShell(faces)
         solid = Part.makeSolid(shell)
@@ -932,7 +964,7 @@ class Geodesic_sphere:
    
 class GeodesicSphereCommand:
     def GetResources(self):
-        return {'Pixmap'  : str(FreeCAD.getUserAppDataDir())+'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/geodesic_sphere.svg',
+        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/geodesic_sphere.svg',
                 'Accel' : "Shift+G", 
                 'MenuText': "Geodesic sphere",
                 'ToolTip' : "Generate Geodesic Spheres"}
