@@ -50,7 +50,7 @@
 # flexibility for installation folder
 
 # version 01.07b (2020-01-02)
-# icosahedron_truncaded : now radius of the result, not of the base icosahedron
+# icosahedron_truncated : now radius of the result, not of the base icosahedron
 
 
 
@@ -77,14 +77,14 @@ def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
 
 
 
-def horizontal_regular_pyramid_vertexes(sidescount,radius,z, startangle = 0):
+def horizontal_regular_pyramid_vertexes(sidescount,radius,z, anglez = 0): # anglez in degrees
     vertexes = []
     odd = 0
     if (sidescount % 2) == 0:
         odd = 1
     if radius != 0 :
         for i in range(0,sidescount+1):
-            angle = 2 * math.pi * i / sidescount + (math.pi * (odd/sidescount + 1/2)) + startangle * math.pi / 180
+            angle = 2 * math.pi * i / sidescount + (math.pi * (odd/sidescount + 1/2)) + anglez * math.pi / 180
             vertex = (radius * math.cos(angle), radius * math.sin(angle), z)
             vertexes.append(vertex)
     else:
@@ -704,7 +704,7 @@ class Icosahedron_truncated:
         height = radius * math.sin(angle) 
 
         faces = []
-        print(radius, radius2)
+        
         vertex_bottom = (0,0,-radius)
         vertexes_low =  horizontal_regular_polygon_vertexes(5,radius2 , -height)
         vertexes_high = horizontal_regular_polygon_vertexes(5,radius2 , height ,  -math.pi/5)
