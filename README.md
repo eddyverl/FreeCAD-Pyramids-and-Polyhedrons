@@ -16,17 +16,17 @@ All these parts are fully scalable and can be adjusted at all time.
 <img src="polyhedrons.png">
 
 
-#How to use:
+# How to use:
 - Activate the shape you want by clicking on the icon in the workbench.
 - Activate it by clicking on the label in the Model.
 - Then adjust the sizes, as with classic Parts.
 
-#Tutorials on YouTube:
+# Tutorials on YouTube:
 - [Pyramids use and possibilities](https://youtu.be/H8IgmzpMpSg) 
 - [More advanced, build a model of a geodesic dome](https://youtu.be/FsYHYnVcVvI) 
 
 
-#Install using the addon manager (when availale)
+# Install using the addon manager (when availale)
 In FREECAD go to the Main Menu/Tools/Addon Manager
 - Select the tab Workbenches
 - Select 'Pyramids-and-Polyhedrons' and click "Install"
