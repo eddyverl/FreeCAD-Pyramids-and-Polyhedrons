@@ -37,7 +37,7 @@ In FREECAD go to the Main Menu/Tools/Addon Manager
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
 - Go to the 'Mod' folder, next to the 'Macro' folder
 - download a copy of this repository and put it in the Mod folder
-- IMPORTANT! Rename the folder to "Pyramids-and-Polygons" (remove "-master")
+- IMPORTANT! Rename the folder to "Pyramids-and-Polyhedrons" (remove "-master")
 - (re)start FreeCAD
 - The workbench 'Pyramids-and-Polyhedrons' is now in the list of workbenches.
 
