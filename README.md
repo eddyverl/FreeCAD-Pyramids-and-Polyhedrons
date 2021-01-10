@@ -1,5 +1,5 @@
 # Pyramids-and-Polyhedrons
-FreeCad Workbench / Macros for building pyramids 
+FreeCad Workbench
 and polygons:
 - tetrahedron
 - hexahedron
@@ -9,36 +9,40 @@ and polygons:
 - truncated icosahedron (football)
 - geodesic spheres (level 1 to 10)
 
-All fully scalable parts just like in the PART workbench.
-
-How to use:
-Activate the shape you want. Then adjust the sizes, as with classic Parts.
-
-Note: this is a user-friendly version of existing macros.
-  
+All these parts are fully scalable and can be adjusted at all time.
 
 <img src="workbench.png">
 
 <img src="polyhedrons.png">
 
 
-# Install using the addon manager (when availale)
+#How to use:
+- Activate the shape you want by clicking on the icon in the workbench.
+- Activate it by clicking on the label in the Model.
+- Then adjust the sizes, as with classic Parts.
+
+#Tutorials on YouTube:
+- [Pyramids use and possibilities](https://youtu.be/H8IgmzpMpSg) 
+- [More advanced, build a model of a geodesic dome](https://youtu.be/FsYHYnVcVvI) 
+
+
+#Install using the addon manager (when availale)
 In FREECAD go to the Main Menu/Tools/Addon Manager
-- Select the tab Workbenches 
+- Select the tab Workbenches
 - Select 'Pyramids-and-Polyhedrons' and click "Install"
 
 
-# How to install the workbench manually  (always possible)
+# How to install the workbench manually 
+(if not available in FreeCAD-addons)
 - Find the Macro folder via FreeCadMenu/Edit/Preferences/Macro ...
-
-    normally:
-    
-        * Linux   : in  /home/yourname/.FreeCAD/
-        * Windows : in  C:\Users\yourname\AppData\Roaming\FreeCAD\
 - Go to the 'Mod' folder, next to the 'Macro' folder
-- Download a copy of this repository and put it in the Mod folder
-- Simplify the folder-name to "Pyramids-and-Polyhedrons" 
+- download a copy of this repository and put it in the Mod folder
+- IMPORTANT! Rename the folder to "Pyramids-and-Polygons" (remove "-master")
 - (re)start FreeCAD
-- The workbench 'Pyramids-and-Polyhedrons' is now in the list, select it
-- click on an icon, and proceed just like in the Part workbench.
+- The workbench 'Pyramids-and-Polyhydrons' is now in the list of workbenches.
 
+
+# Alternative solution
+Macros Pyramids and macro Polyhedrons
+The addon manager does contain the same functions as macros.
+So if you have trouble installing the workbench, this is a suitable alternative.
