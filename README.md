@@ -1,6 +1,6 @@
 # Pyramids-and-Polyhedrons
-FreeCad Workbench
-and polygons:
+FreeCad Workbench for generating
+pyramids and polyhedrons:
 - tetrahedron
 - hexahedron
 - octahedron
