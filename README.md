@@ -39,7 +39,7 @@ In FREECAD go to the Main Menu/Tools/Addon Manager
 - download a copy of this repository and put it in the Mod folder
 - IMPORTANT! Rename the folder to "Pyramids-and-Polygons" (remove "-master")
 - (re)start FreeCAD
-- The workbench 'Pyramids-and-Polyhydrons' is now in the list of workbenches.
+- The workbench 'Pyramids-and-Polyhedrons' is now in the list of workbenches.
 
 
 # Alternative solution
