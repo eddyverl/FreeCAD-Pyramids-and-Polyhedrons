@@ -43,6 +43,6 @@ In FREECAD go to the Main Menu/Tools/Addon Manager
 
 
 # Alternative solution
-Macros Pyramids and macro Polyhedrons
+Macro Pyramids and macro Polyhedrons
 The addon manager does contain the same functions as macros.
 So if you have trouble installing the workbench, this is a suitable alternative.
