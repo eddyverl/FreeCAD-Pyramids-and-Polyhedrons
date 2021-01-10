@@ -49,6 +49,9 @@
 # version 01.07a (2020-12-30)
 # flexibility for installation folder
 
+# version 01.07b (2020-01-02)
+# icosahedron_truncaded : now radius of the result, not of the base icosahedron
+
 
 
 import FreeCAD,FreeCADGui
@@ -673,13 +676,13 @@ class Icosahedron_truncated:
     radiusvalue = 0  
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius  of basic icosahedron").Radius=radius
+        obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Icosahedron_truncated","Sidelength")
         obj.Proxy = self
 
     def execute (self,obj):
 
-        radius = float(obj.Radius)
+        radius = float(obj.Radius) * 1.144  # correction for Icosohedron --> truncated
         if (radius != self.radiusvalue):
             obj.Side = 4*radius / math.sqrt(10 + 2 * math.sqrt(5)) / 3
             self.radiusvalue = radius
@@ -687,8 +690,9 @@ class Icosahedron_truncated:
             self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4) * 3
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
-        z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))  # z of base icosahedron
+
+        
+        z =  float(4*radius)  / math.sqrt(10 + 2 * math.sqrt(5)) # z of base icosahedron 
         anglefaces = 138.189685104
         r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
 
@@ -697,14 +701,14 @@ class Icosahedron_truncated:
 
         #height of radius2 in the sphere
         angle = math.acos(radius2/radius)
-        height = radius * math.sin(angle)
+        height = radius * math.sin(angle) 
 
         faces = []
-
+        print(radius, radius2)
         vertex_bottom = (0,0,-radius)
-        vertexes_low = horizontal_regular_polygon_vertexes(5,radius2, -height)
-        vertexes_high = horizontal_regular_polygon_vertexes(5,radius2, height,  -math.pi/5)
-        vertex_top = (0,0,radius)
+        vertexes_low =  horizontal_regular_polygon_vertexes(5,radius2 , -height)
+        vertexes_high = horizontal_regular_polygon_vertexes(5,radius2 , height ,  -math.pi/5)
+        vertex_top = (0,0,radius) 
 
         vertexes_bottom = []
         vertexes_top = []
