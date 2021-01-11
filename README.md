@@ -26,7 +26,7 @@ All these parts are fully scalable and can be adjusted at all time.
 - [More advanced, build a model of a geodesic dome](https://youtu.be/FsYHYnVcVvI) 
 
 
-# Install using the addon manager (when availale)
+# Install using the addon manager
 In FREECAD go to the Main Menu/Tools/Addon Manager
 - Select the tab Workbenches
 - Select 'Pyramids-and-Polyhedrons' and click "Install"
