@@ -21,8 +21,8 @@ All these parts are fully scalable and can be adjusted at all time.
 - Activate it by clicking on the label in the Model.
 - Then adjust the sizes, as with classic Parts.
 
-If you want to edit it in workbench Part Design:
-- click on it in the model view and the click on the body-button.
+If you want to edit it in the workbench Part Design:
+- click on it in the model-view and then click on the 'body-button'.
 
 
 # Tutorials on YouTube:
