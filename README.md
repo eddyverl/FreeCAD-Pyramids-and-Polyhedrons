@@ -21,6 +21,10 @@ All these parts are fully scalable and can be adjusted at all time.
 - Activate it by clicking on the label in the Model.
 - Then adjust the sizes, as with classic Parts.
 
+If you want to edit it in workbench Part Design:
+- click on it in the model view and the click on the body-button.
+
+
 # Tutorials on YouTube:
 - [Pyramids use and possibilities](https://youtu.be/H8IgmzpMpSg) 
 - [More advanced, build a model of a geodesic dome](https://youtu.be/FsYHYnVcVvI) 
