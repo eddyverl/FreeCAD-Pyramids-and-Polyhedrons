@@ -27,6 +27,7 @@ If you want to edit it in the workbench Part Design:
 
 # Tutorials on YouTube:
 - [Pyramids use and possibilities](https://youtu.be/H8IgmzpMpSg) 
+- [Editing polyhedrons in PartDesign](https://youtu.be/Lym1jM_Vans)
 - [More advanced, build a model of a geodesic dome](https://youtu.be/FsYHYnVcVvI) 
 
 
