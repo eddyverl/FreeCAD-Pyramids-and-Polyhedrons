@@ -1348,7 +1348,7 @@ class RegularSolid:
          
     sizenames = ["Midradius", "Inradius", "Circumradius", "LongEdge", "ShortEdge"]
    
-    def __init__(self, obj, midradius=10):
+    def __init__(self, obj, midradius=5):
         obj.addProperty("App::PropertyLength","Midradius","RegularSolid","Radius of inscribed sphere touching closest edge").Midradius=midradius
         obj.addProperty("App::PropertyLength","Inradius","RegularSolid","Radius of inscribed sphere touching closest face")
         obj.addProperty("App::PropertyLength","Circumradius","RegularSolid","Radius of inscribed sphere touching furthest vertex")
@@ -1392,6 +1392,7 @@ class RegularSolid:
             vtrunc,etrunc,dual = obj.Vtrunc,obj.Etrunc,obj.Dual
             snub = [e[0] for e in self.enums["Snub"] if e[1]==obj.Snub][0]
             if presetcode!="0" and self.p[presetcode]!=(source,vtrunc,etrunc,dual,snub):
+                # TODO: Handle toggle of dual and determine respective other preset solid instead of always reverting to "Custom"
                 presetcode = "0"
                 obj.Presets = [e[1] for e in self.enums["Presets"] if e[0]==presetcode][0]
         self.prevcode = presetcode
