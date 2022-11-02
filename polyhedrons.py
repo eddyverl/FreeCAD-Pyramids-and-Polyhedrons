@@ -1348,7 +1348,7 @@ class RegularSolid:
          
     sizenames = ["Midradius", "Inradius", "Circumradius", "LongEdge", "ShortEdge"]
    
-    def __init__(self, obj, midradius=10):
+    def __init__(self, obj, midradius=5):
         obj.addProperty("App::PropertyLength","Midradius","RegularSolid","Radius of inscribed sphere touching closest edge").Midradius=midradius
         obj.addProperty("App::PropertyLength","Inradius","RegularSolid","Radius of inscribed sphere touching closest face")
         obj.addProperty("App::PropertyLength","Circumradius","RegularSolid","Radius of inscribed sphere touching furthest vertex")
