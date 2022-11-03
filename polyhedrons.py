@@ -1373,9 +1373,17 @@ class RegularSolid:
         self.prevcode = None
         self.prevsizes = (None,None,None,None,None)
 
+
+    # We do not want to clutter our serialisation with the previous property values.
+    # Also, self.prevsizes contains Quantity objects which don't JSON-serialise
+    def __getstate__(self): 
+        return None
+    def __setstate__(self,state):
+        self.prevcode = None
+        self.prevsizes = (None,None,None,None,None)
+
     def execute (self,obj):
-        # We force obj Quantity properties into float values so that self.prevsizes does not become a (not JSON serialisable) Quantity tuple below
-        sizes = tuple(float(val) for val in (obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge))
+        sizes = (obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge)
         keepsize = obj.KeepSize
         for i in range(len(sizes)):
             if sizes[i]!=self.prevsizes[i] and self.prevsizes[i]!=None:
@@ -1426,6 +1434,7 @@ class RegularSolid:
         shell = Part.makeShell(faces).scaled(scale,v0)
         solid = Part.makeSolid(shell)
         obj.Shape = solid
+
         
  
 class RegularSolidCommand:    
