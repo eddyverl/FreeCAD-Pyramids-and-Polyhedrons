@@ -1374,7 +1374,8 @@ class RegularSolid:
         self.prevsizes = (None,None,None,None,None)
 
     def execute (self,obj):
-        sizes = (obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge)
+        # We force obj Quantity properties into float values so that self.prevsizes does not become a (not JSON serialisable) Quantity tuple below
+        sizes = tuple(float(val) for val in (obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge))
         keepsize = obj.KeepSize
         for i in range(len(sizes)):
             if sizes[i]!=self.prevsizes[i] and self.prevsizes[i]!=None:
@@ -1414,11 +1415,12 @@ class RegularSolid:
             max(e.Length for f in faces for e in f.Edges), # LongEdge
             min(e.Length for f in faces for e in f.Edges) # ShortEdge
         )
-        
+
         for i in range(len(self.sizenames)):
             if keepsize==self.sizenames[i]:
                 scale = sizes[i]/origsizes[i]
-                
+                break
+
         obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge = self.prevsizes = tuple(os*scale for os in origsizes)
         
         shell = Part.makeShell(faces).scaled(scale,v0)
