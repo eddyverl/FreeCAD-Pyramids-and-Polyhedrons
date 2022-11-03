@@ -1370,11 +1370,12 @@ class RegularSolid:
         obj.Presets = [e[1] for e in self.enums["Presets"]]
         obj.Presets = [e[1] for e in self.enums["Presets"] if len(e)>=4 and e[3]][0]
         obj.Proxy = self
+        # We could implement onChanged(self,opj,prop) to handle property value changes, but its easier to keep property previous values around
         self.prevcode = None
         self.prevsizes = (None,None,None,None,None)
 
 
-    # We do not want to clutter our serialisation with the previous property values.
+    # We do not want to clutter our serialisation with previous property value state.
     # Also, self.prevsizes contains Quantity objects which don't JSON-serialise
     def __getstate__(self): 
         return None
@@ -1401,8 +1402,7 @@ class RegularSolid:
             vtrunc,etrunc,dual = obj.Vtrunc,obj.Etrunc,obj.Dual
             snub = [e[0] for e in self.enums["Snub"] if e[1]==obj.Snub][0]
             if presetcode!="0" and self.p[presetcode]!=(source,vtrunc,etrunc,dual,snub):
-                # TODO: Handle toggle of dual and determine respective other preset solid instead of always reverting to "Custom"
-                presetcode = "0"
+                presetcode = "0" if (presetcode[0]=="d")==dual else "d"+presetcode if dual else presetcode[1:]
                 obj.Presets = [e[1] for e in self.enums["Presets"] if e[0]==presetcode][0]
         self.prevcode = presetcode
         
@@ -1434,7 +1434,6 @@ class RegularSolid:
         shell = Part.makeShell(faces).scaled(scale,v0)
         solid = Part.makeSolid(shell)
         obj.Shape = solid
-
         
  
 class RegularSolidCommand:    
@@ -1451,8 +1450,6 @@ class RegularSolidCommand:
         ViewProviderBox(obj.ViewObject, "RegularSolid")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
-        return
-
         
     def IsActive(self):
         return FreeCAD.ActiveDocument!=None
