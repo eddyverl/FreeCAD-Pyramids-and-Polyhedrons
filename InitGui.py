@@ -56,8 +56,6 @@ class PolyhydronsWorkbench (Workbench):
         
         import workbenchfolders
         
-        print (workbenchfolders.recommended_folders)
-        
         basedir = str(FreeCAD.getUserAppDataDir())
         folder = ""
         
