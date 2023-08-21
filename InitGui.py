@@ -23,7 +23,7 @@
 
 # Based on examples at : https://www.freecadweb.org/wiki/Workbench_creation
 
-# Version 01.04
+# Version 01.08
 
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
@@ -39,6 +39,9 @@
 
 # version 01.07a  (2020-12-30)
 # flexibility for installation folder
+
+# version 01.08   (2023-08-21)
+# no printing of the workbenchfolders  (issue bij Alex Neufeld)
 
 
 class PolyhydronsWorkbench (Workbench):
@@ -56,7 +59,7 @@ class PolyhydronsWorkbench (Workbench):
         
         import workbenchfolders
         
-        print (workbenchfolders.recommended_folders)
+        #print (workbenchfolders.recommended_folders)       # (issue bij Alex Neufeld)
         
         basedir = str(FreeCAD.getUserAppDataDir())
         folder = ""
