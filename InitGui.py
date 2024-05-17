@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2019  Eddy Verlinden , Genk Belgium   (eddyverl)        *   
+# *   Copyright (c) 2019  Eddy Verlinden , Genk Belgium   (eddyverl)        *
 # *                                                                         *
 # *   This file is part of the FreeCAD CAx development system.              *
 # *                                                                         *
@@ -49,26 +49,26 @@ class PolyhydronsWorkbench (Workbench):
     MenuText = "Pyramids-and-Polyhedrons"
     ToolTip = "A workbench for generating pyramids, polyhedrons and geodesic spheres"
     #Icon = """paste here the contents of a 16x16 xpm icon"""
-    
-    
+
+
     def getWorkbenchFolder(self):
 
-         
+
         import os.path
         from os import path
-        
+
         import workbenchfolders
-        
+
         #print (workbenchfolders.recommended_folders)       # (issue bij Alex Neufeld)
-        
+
         basedir = str(FreeCAD.getUserAppDataDir())
         folder = ""
-        
+
         for tryfolder in workbenchfolders.recommended_folders:
                 if path.exists(basedir + tryfolder):
                         folder = basedir + tryfolder
                         return folder
-        
+
         for tryfolder in workbenchfolders.user_chosen_folders:
                 if path.exists(basedir + tryfolder):
                         folder = basedir + tryfolder
@@ -76,15 +76,15 @@ class PolyhydronsWorkbench (Workbench):
                 if path.exists(tryfolder):
                         folder = tryfolder
                         return folder
-                        
+
         return ""
-        
-        
-    
+
+
+
 
     def __init__(self):
         resourcespath = self.getWorkbenchFolder() + "/Resources/"
-        
+
         self.__class__.Icon = resourcespath + "Icons/Pyramids-and-Polyhedrons_workbench_icon.svg"
 
     def Initialize(self):
@@ -109,8 +109,8 @@ class PolyhydronsWorkbench (Workbench):
         # "recipient" will be either "view" or "tree"
         self.appendContextMenu("Pyramids-and-Polyhedrons",self.list) # add commands to the context menu
 
-    def GetClassName(self): 
+    def GetClassName(self):
         # this function is mandatory if this is a full python workbench
         return "Gui::PythonWorkbench"
-       
+
 Gui.addWorkbench(PolyhydronsWorkbench())

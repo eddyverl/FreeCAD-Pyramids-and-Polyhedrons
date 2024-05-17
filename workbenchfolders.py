@@ -1,8 +1,8 @@
 
-# In this file you can add non-standard paths to the actual workbenchfolder 
+# In this file you can add non-standard paths to the actual workbenchfolder
 # in case you have moved or renamed your workbench.
 
-# Your path can start with the classic 'Mod' folder 
+# Your path can start with the classic 'Mod' folder
 # Or from the root.
 # Quotes are required, and so are commas
 
@@ -14,7 +14,7 @@ recommended_folders = (
 "Mod/Pyramids_and_polyhedrons" ,
 "Mod/Pyramids-and-Polyhedrons" ,
 "Mod/FreeCAD-Pyramids-and-Polyhedrons" ,
-"Mod/Pyramids-and-polyhedrons" 
+"Mod/Pyramids-and-polyhedrons"
 )
 
 

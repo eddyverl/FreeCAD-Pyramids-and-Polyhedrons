@@ -1,5 +1,5 @@
 # ***************************************************************************
-# *   Copyright (c) 2019  Eddy Verlinden , Genk Belgium   (eddyverl)        *   
+# *   Copyright (c) 2019  Eddy Verlinden , Genk Belgium   (eddyverl)        *
 # *                                                                         *
 # *   This file is part of the FreeCAD CAx development system.              *
 # *                                                                         *
@@ -94,17 +94,17 @@ def getWorkbenchFolder():
 
     import os.path
     from os import path
-    
+
     import workbenchfolders
-    
+
     basedir = str(FreeCAD.getUserAppDataDir())
     folder = ""
-    
+
     for tryfolder in workbenchfolders.recommended_folders:
             if path.exists(basedir + tryfolder):
                     folder = basedir + tryfolder
                     return folder
-    
+
     for tryfolder in workbenchfolders.user_chosen_folders:
             if path.exists(basedir + tryfolder):
                     folder = basedir + tryfolder
@@ -112,18 +112,18 @@ def getWorkbenchFolder():
             if path.exists(tryfolder):
                     folder = tryfolder
                     return folder
-                    
-    return ""
-        
-        
- 
 
-# ===========================================================================    
+    return ""
+
+
+
+
+# ===========================================================================
 
 class ViewProviderBox:
-    
+
     obj_name = "Dodecahedron"
-    
+
     def __init__(self, obj, obj_name):
         self.obj_name = obj_name
         obj.Proxy = self
@@ -136,7 +136,7 @@ class ViewProviderBox:
 
     def getDisplayModes(self,obj):
         return "As Is"
-        
+
     def getDefaultDisplayMode(self):
         return "As Is"
 
@@ -145,21 +145,21 @@ class ViewProviderBox:
 
     def onChanged(self, vobj, prop):
         pass
-        
+
     def getIcon(self):
         #return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/' + (self.obj_name).lower() + '.svg'
         return getWorkbenchFolder() + "/Resources/Icons/' + (self.obj_name).lower() + '.svg'"
-        
+
     def __getstate__(self):
         return None
 
     def __setstate__(self,state):
         return None
-       
-# ===========================================================================    
+
+# ===========================================================================
 
 class Pyramid:
- 
+
     radius1value = 0
     radius2value = 0
     sidescountvalue = 0
@@ -178,9 +178,9 @@ class Pyramid:
 
         obj.Proxy = self
 
-        
+
     def execute (self,obj):
-              
+
         sidescount = int(obj.Sidescount)
         angle = 2 * math.pi / sidescount
         radius_bottom = float(obj.Radius1)
@@ -195,21 +195,21 @@ class Pyramid:
             self.radius1value = radius_bottom
             self.side1value = float(obj.Sidelength1)
         elif sidelength_bottom != self.side1value:
-            self.radius1value = float(obj.Sidelength1 / 2) / math.sin(angle/2) 
+            self.radius1value = float(obj.Sidelength1 / 2) / math.sin(angle/2)
             obj.Radius1 = self.radius1value
             radius_bottom = self.radius1value
             self.side1value = float(obj.Sidelength1)
 
-        if radius_top != self.radius2value or sidescount != self.sidescountvalue: 
+        if radius_top != self.radius2value or sidescount != self.sidescountvalue:
             obj.Sidelength2 = radius_top * math.sin(angle/2) * 2
             self.radius2value = float(radius_top)
             self.side2value = float(obj.Sidelength2)
         elif sidelength_top != self.side2value:
-            self.radius2value = float(obj.Sidelength2 / 2) / math.sin(angle/2) 
+            self.radius2value = float(obj.Sidelength2 / 2) / math.sin(angle/2)
             obj.Radius2 = self.radius2value
             radius_top = self.radius2value
             self.side2value = float(obj.Sidelength2)
-            
+
         self.sidescountvalue = sidescount
         faces = []
         if radius_bottom == 0 and radius_top == 0:
@@ -222,12 +222,12 @@ class Pyramid:
                 polygon_bottom = Part.makePolygon(vertexes_bottom)
                 face_bottom = Part.Face(polygon_bottom)
                 faces.append(face_bottom)
-            if radius_top != 0:    
+            if radius_top != 0:
                 polygon_top = Part.makePolygon(vertexes_top)
                 face_top = Part.Face(polygon_top)
                 faces.append(face_top)
 
-            for i in range(sidescount):            
+            for i in range(sidescount):
                 if radius_top == 0:
                     vertexes_side=[vertexes_bottom[i],vertexes_bottom[i+1],vertexes_top[0],vertexes_bottom[i]]
                 elif radius_bottom == 0:
@@ -237,28 +237,28 @@ class Pyramid:
                 polygon_side=Part.makePolygon(vertexes_side)
                 faces.append(Part.Face(polygon_side))
 
-            shell = Part.makeShell(faces)   
+            shell = Part.makeShell(faces)
             solid = Part.makeSolid(shell)
             obj.Shape = solid
-        
+
 class PyramidCommand:
-    
+
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/pyramid.svg',
-                'Accel' : "Shift+P", 
+                'Accel' : "Shift+P",
                 'MenuText': "Pyramid",
                 'ToolTip' : "Generate a Pyramid with any number of sides"}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Pyramid")   # see https://www.freecadweb.org/wiki/Creating_a_FeaturePython_Box,_Part_II
         Pyramid(obj)
-        ViewProviderBox(obj.ViewObject, "Pyramid") 
-        #obj.ViewObject.Proxy=0            
+        ViewProviderBox(obj.ViewObject, "Pyramid")
+        #obj.ViewObject.Proxy=0
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
@@ -268,23 +268,23 @@ class PyramidCommand:
 FreeCADGui.addCommand('Pyramid',PyramidCommand())
 
 
-# ===========================================================================    
-    
+# ===========================================================================
+
 class Tetrahedron:
         # == basics ==
         #R = z / 4 * sqrt(6)
         #ro = z / 12 * sqrt(6)    -->   ro = R / 3
         #z = 4 * R / sqrt(6)
-        #h = z / 3 * sqrt(6) = 4 * R / sqrt(6) /3 * sqrt(6) = 4 * R / 3  = ro + R 
+        #h = z / 3 * sqrt(6) = 4 * R / sqrt(6) /3 * sqrt(6) = 4 * R / 3  = ro + R
         #radius at level = z / 2 / cos(30) = (4 * R / sqrt(6)) / 2 / sqrt(3) * 2 = 4 * R / (sqrt(6) * sqrt(3))= 4 * R / (3 * sqrt(2)
-        
-    radiusvalue = 0    
+
+    radiusvalue = 0
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Tetrahedron","Radius of the tetrahedron").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Tetrahedron","Sidelength of the tetrahedron")
         obj.Proxy = self
 
-        
+
     def execute (self,obj):
 
         radius = float(obj.Radius)
@@ -295,29 +295,29 @@ class Tetrahedron:
             self.radiusvalue = float(obj.Side * math.sqrt(6) / 4)
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
-        faces = []        
+
+        faces = []
         vertexes_bottom = horizontal_regular_polygon_vertexes(3,4*radius/3/math.sqrt(2),- radius / 3)
         vertexes_top    = horizontal_regular_polygon_vertexes(1,0,radius)
-        
+
         for i in range(3):
             vertexes_side=[vertexes_bottom[i],vertexes_bottom[i+1],vertexes_top[0],vertexes_bottom[i]]
             polygon_side=Part.makePolygon(vertexes_side)
             faces.append(Part.Face(polygon_side))
 
         polygon_bottom=Part.makePolygon(vertexes_bottom)
-        
+
         faces.append(Part.Face(polygon_bottom))
         shell = Part.makeShell(faces)
         solid = Part.makeSolid(shell)
         obj.Shape = solid
-        
+
 
 class TetrahedronCommand:
-    
+
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/tetrahedron.svg',
-                'Accel' : "Shift+T", 
+                'Accel' : "Shift+T",
                 'MenuText': "Tetrahedron",
                 'ToolTip' : "Generate a Tetrahedron"}
 
@@ -325,34 +325,34 @@ class TetrahedronCommand:
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Tetrahedron")
         Tetrahedron(obj)
         #obj.ViewObject.Proxy=0
-        ViewProviderBox(obj.ViewObject, "Tetrahedron") 
+        ViewProviderBox(obj.ViewObject, "Tetrahedron")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
         else:
                return True
-        
+
 
 FreeCADGui.addCommand('Tetrahedron',TetrahedronCommand())
 
-# ===========================================================================    
+# ===========================================================================
 
-class Hexahedron: 
- 
-    radiusvalue = 0  
-    
+class Hexahedron:
+
+    radiusvalue = 0
+
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Hexahedron","Radius of the hexahedron").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Hexahedron","Sidelength of the hexahedron")
         obj.Proxy = self
 
     def execute(self, obj):
-            
-        radius = float(obj.Radius) 
+
+        radius = float(obj.Radius)
         if (radius != self.radiusvalue):
             side = radius * 2 / math.sqrt(3)
             obj.Side = side
@@ -361,8 +361,8 @@ class Hexahedron:
             self.radiusvalue = obj.Side / 2 * math.sqrt(3)
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            side = obj.Side       
-             
+            side = obj.Side
+
         faces = []
         vertexes_bottom = horizontal_regular_polygon_vertexes(4,math.sqrt(side ** 2 / 2),- side/2, math.pi/4)
         vertexes_top    = horizontal_regular_polygon_vertexes(4,math.sqrt(side ** 2 / 2), side/2, math.pi/4)
@@ -374,20 +374,20 @@ class Hexahedron:
 
         polygon_bottom=Part.makePolygon(vertexes_bottom)
         faces.append(Part.Face(polygon_bottom))
-        
+
         polygon_top=Part.makePolygon(vertexes_top)
         faces.append(Part.Face(polygon_top))
 
         shell = Part.makeShell(faces)
         solid = Part.makeSolid(shell)
-        obj.Shape = solid        
-        
-        
+        obj.Shape = solid
+
+
 class HexahedronCommand:
-    
+
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/hexahedron.svg',
-                'Accel' : "Shift+H", 
+                'Accel' : "Shift+H",
                 'MenuText': "Hexahedron",
                 'ToolTip' : "Generate a Hexahedron"}
 
@@ -395,30 +395,30 @@ class HexahedronCommand:
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Hexahedron")
         Hexahedron(obj)
         #obj.ViewObject.Proxy=0
-        ViewProviderBox(obj.ViewObject, "Hexahedron") 
+        ViewProviderBox(obj.ViewObject, "Hexahedron")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
         else:
                return True
-        
 
-FreeCADGui.addCommand('Hexahedron',HexahedronCommand())        
-# ===========================================================================    
 
-class Octahedron: 
-    # Z = R * sqrt(2)   
-    radiusvalue = 0  
-    
+FreeCADGui.addCommand('Hexahedron',HexahedronCommand())
+# ===========================================================================
+
+class Octahedron:
+    # Z = R * sqrt(2)
+    radiusvalue = 0
+
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Octahedron","Radius of the octahedron").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Octahedron","Sidelength of the octahedron")
         obj.Proxy = self
-  
+
     def execute (self,obj):
 
         radius = float(obj.Radius)
@@ -429,8 +429,8 @@ class Octahedron:
             self.radiusvalue = float(obj.Side / math.sqrt(2))
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
- 
+
+
 
         faces = []
         vertexes_middle = horizontal_regular_polygon_vertexes(4,radius,0)
@@ -451,9 +451,9 @@ class Octahedron:
         solid = Part.makeSolid(shell)
         obj.Shape = solid
 
-  
+
 class OctahedronCommand:
-        
+
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/octahedron.svg',
                 'Accel' : "Shift+O",
@@ -464,34 +464,34 @@ class OctahedronCommand:
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Octahedron")
         Octahedron(obj)
         #obj.ViewObject.Proxy=0
-        ViewProviderBox(obj.ViewObject, "Octahedron") 
+        ViewProviderBox(obj.ViewObject, "Octahedron")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
         else:
                return True
-                
+
 FreeCADGui.addCommand('Octahedron',OctahedronCommand())
 
-# ===========================================================================    
-    
+# ===========================================================================
+
 class Dodecahedron:
-    
-    radiusvalue = 0  
-   
+
+    radiusvalue = 0
+
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Dodecahedron","Radius of the dodecahedron").Radius=radius
         obj.addProperty("App::PropertyLength","Side","Dodecahedron","Sidelength of the dodecahedron")
         obj.Proxy = self
-    
+
 
     def execute (self,obj):
-        
+
         angleribs = 121.717474411
         anglefaces = 116.565051177
 
@@ -503,7 +503,7 @@ class Dodecahedron:
             self.radiusvalue = float(obj.Side * (math.sqrt(3) * ( 1 + math.sqrt(5))) / 4)
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
+
         faces = []
         z = 4 * radius /  (math.sqrt(3) * ( 1 + math.sqrt(5)))
         r = z/2 * math.sqrt((25 + (11 * math.sqrt(5)))/10)
@@ -550,7 +550,7 @@ class Dodecahedron:
         solid = Part.makeSolid(shell)
         obj.Shape = solid
 
-class DodecahedronCommand:    
+class DodecahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/dodecahedron.svg',
                 'Accel' : "Shift+D",
@@ -566,7 +566,7 @@ class DodecahedronCommand:
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
@@ -575,11 +575,11 @@ class DodecahedronCommand:
 
 FreeCADGui.addCommand('Dodecahedron',DodecahedronCommand())
 
-# ===========================================================================    
+# ===========================================================================
 
 class Icosahedron:
-    
-    radiusvalue = 0  
+
+    radiusvalue = 0
 
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Icosahedron","Radius of the icosahedron").Radius=radius
@@ -597,7 +597,7 @@ class Icosahedron:
             self.radiusvalue = float(obj.Side * math.sqrt(10 + 2 * math.sqrt(5)) / 4)
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
+
 
         z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))
         anglefaces = 138.189685104
@@ -640,7 +640,7 @@ class Icosahedron:
         shell = Part.makeShell(faces)
         solid = Part.makeSolid(shell)
         obj.Shape = solid
-   
+
 class IcosahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron.svg',
@@ -657,7 +657,7 @@ class IcosahedronCommand:
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
@@ -666,11 +666,11 @@ class IcosahedronCommand:
 
 FreeCADGui.addCommand('Icosahedron',IcosahedronCommand())
 
-# ===========================================================================    
+# ===========================================================================
 
 class Icosahedron_truncated:
-    
-    radiusvalue = 0  
+
+    radiusvalue = 0
 
     def __init__(self, obj, radius=5):
         obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius").Radius=radius
@@ -688,8 +688,8 @@ class Icosahedron_truncated:
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
 
-        
-        z =  float(4*radius)  / math.sqrt(10 + 2 * math.sqrt(5)) # z of base icosahedron 
+
+        z =  float(4*radius)  / math.sqrt(10 + 2 * math.sqrt(5)) # z of base icosahedron
         anglefaces = 138.189685104
         r = z/12 * math.sqrt(3) * (3 + math.sqrt(5))
 
@@ -698,14 +698,14 @@ class Icosahedron_truncated:
 
         #height of radius2 in the sphere
         angle = math.acos(radius2/radius)
-        height = radius * math.sin(angle) 
+        height = radius * math.sin(angle)
 
         faces = []
-        
+
         vertex_bottom = (0,0,-radius)
         vertexes_low =  horizontal_regular_polygon_vertexes(5,radius2 , -height)
         vertexes_high = horizontal_regular_polygon_vertexes(5,radius2 , height ,  -math.pi/5)
-        vertex_top = (0,0,radius) 
+        vertex_top = (0,0,radius)
 
         vertexes_bottom = []
         vertexes_top = []
@@ -799,11 +799,11 @@ class Icosahedron_truncated:
         solid = Part.makeSolid(shell)
         obj.Shape = solid
 
-   
+
 class IcosahedronTrCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron_trunc.svg',
-                'Accel' : "Shift+F", 
+                'Accel' : "Shift+F",
                 'MenuText': "Icosahedron truncated",
                 'ToolTip' : "Generate a Truncated Icosahedron (football)"}
 
@@ -816,7 +816,7 @@ class IcosahedronTrCommand:
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
@@ -825,7 +825,7 @@ class IcosahedronTrCommand:
 
 FreeCADGui.addCommand('Icosahedron_truncated',IcosahedronTrCommand())
 
-# ===========================================================================    
+# ===========================================================================
 
 def geodesic_radius2side(radius, div):
     # approximative experience values! Not all sides are equal!
@@ -852,11 +852,11 @@ def geodesic_side2radius(side, div):
         return side * 1000 / factor
 
 
-# =========================================================================== 
+# ===========================================================================
 
 class Geodesic_sphere:
-    
-    radiusvalue = 0  
+
+    radiusvalue = 0
     divided_by = 2
 
 
@@ -867,25 +867,25 @@ class Geodesic_sphere:
 
         obj.Proxy = self
 
-    
+
     def geodesic_divide_triangles(self,vertex1, vertex2, vertex3, faces):
-        
+
         vector1 = (Base.Vector(vertex2) - Base.Vector(vertex1)) / self.divided_by
         vector2 = (Base.Vector(vertex3) - Base.Vector(vertex2)) / self.divided_by
 
         icosaPt={}
 
-        
-        icosaPt[str(1)] = Base.Vector(vertex1) 
-          
+
+        icosaPt[str(1)] = Base.Vector(vertex1)
+
         for level in range(self.divided_by):
             l1 = level + 1
             icosaPt[str(l1*10+1)] = icosaPt[str(1)]+ vector1 * (l1)
 
             for pt in range(level+1):
                 icosaPt[str(l1*10+2+pt)] = icosaPt[str(l1*10+1)] + vector2 *(pt+1)
-                    
-        
+
+
         for level in range(self.divided_by):
 
             for point in range(level+1):
@@ -901,10 +901,10 @@ class Geodesic_sphere:
                 vertex3x = icosaPt[str(level*10+12+point)].normalize().multiply(self.radiusvalue)
                 polygon = Part.makePolygon([vertex1x,vertex2x,vertex3x, vertex1x])
                 faces.append(Part.Face(polygon))
-      
+
         return faces
 
-         
+
 
     def execute (self,obj):
 
@@ -913,8 +913,8 @@ class Geodesic_sphere:
             obj.DividedBy = 1
         if obj.DividedBy > 10:
             obj.DividedBy = 10
-                    
-            
+
+
         radius = float(obj.Radius)
         if radius != self.radiusvalue or obj.DividedBy != self.divided_by:
             self.divided_by = obj.DividedBy
@@ -924,8 +924,8 @@ class Geodesic_sphere:
             self.radiusvalue = geodesic_side2radius(obj.Side,self.divided_by)
             obj.Radius = self.radiusvalue
             radius = self.radiusvalue
-            
-        self.divided_by = obj.DividedBy   
+
+        self.divided_by = obj.DividedBy
 
         z = 4*radius / math.sqrt(10 + 2 * math.sqrt(5))
         anglefaces = 138.189685104
@@ -934,7 +934,7 @@ class Geodesic_sphere:
 
         #radius of a pentagram with the same side
         radius2 = z / math.sin(36 * math.pi/180)/2
-        
+
         #height of radius2 in the sphere
         angle = math.acos(radius2/radius)
         height = radius * math.sin(angle)
@@ -945,28 +945,28 @@ class Geodesic_sphere:
         vertexes_low = horizontal_regular_polygon_vertexes(5,radius2, -height)
         vertexes_high = horizontal_regular_polygon_vertexes(5,radius2, height, math.pi/5)
         vertex_top = (0,0,radius)
-        
+
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertex_bottom,vertexes_low[i+1],vertexes_low[i],faces)
 
-       
+
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertexes_high[i],vertexes_low[i+1],vertexes_low[i],faces)
             faces = self.geodesic_divide_triangles(vertexes_low[i+1],vertexes_high[i+1],vertexes_high[i],faces)
 
         for i in range(5):
             faces = self.geodesic_divide_triangles(vertex_top,vertexes_high[i],vertexes_high[i+1],faces)
-    
-        
+
+
         shell = Part.makeShell(faces)
         solid = Part.makeSolid(shell)
-        obj.Shape = solid        
- 
-   
+        obj.Shape = solid
+
+
 class GeodesicSphereCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/geodesic_sphere.svg',
-                'Accel' : "Shift+G", 
+                'Accel' : "Shift+G",
                 'MenuText': "Geodesic sphere",
                 'ToolTip' : "Generate Geodesic Spheres"}
 
@@ -979,7 +979,7 @@ class GeodesicSphereCommand:
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
 
-        
+
     def IsActive(self):
         if FreeCAD.ActiveDocument == None:
                return False
@@ -998,7 +998,7 @@ from functools import reduce
 
 # The python code of the following three functions "vSum", "source" and "createSolid" is taken from Blenders add_mesh_solid.py
 # from the "Add Mesh Extra Objects" addon, authored by Dreampainter, licensed as SPDX-License-Identifier GPL-2.0-or-later,
-# refer https://github.com/blender/blender-addons/blob/master/add_mesh_extra_objects/add_mesh_solid.py. 
+# refer https://github.com/blender/blender-addons/blob/master/add_mesh_extra_objects/add_mesh_solid.py.
 
 # function to make the reduce function work as a workaround to sum a list of vectors
 
@@ -1073,7 +1073,7 @@ def source(plato):
 
     # convert the tuples to Vectors
     verts = [Vector(i) for i in v]
-    
+
     return verts, faces
 
 def createSolid(plato, vtrunc, etrunc, dual, snub):
@@ -1280,7 +1280,7 @@ def createSolid(plato, vtrunc, etrunc, dual, snub):
 # available to FreeCAD. They also borrow somewhat on the add_mesh_solid.py referenced above:
 
 class RegularSolid:
-    
+
     enums = {
     "Source": (("4", "Tetrahedron", ""),
             ("6", "Hexahedron", "", True),
@@ -1345,9 +1345,9 @@ class RegularSolid:
          "db12": ["12", 1.1338, 1, 1, "None"],
          "dc12": ["20", 0.921, 0.553, 1, "None"],
          "ds12": ["12", 1.1235, 0.68, 1, "Left"]}
-         
+
     sizenames = ["Midradius", "Inradius", "Circumradius", "LongEdge", "ShortEdge"]
-   
+
     def __init__(self, obj, midradius=5):
         obj.addProperty("App::PropertyLength","Midradius","RegularSolid","Radius of inscribed sphere touching closest edge").Midradius=midradius
         obj.addProperty("App::PropertyLength","Inradius","RegularSolid","Radius of inscribed sphere touching closest face")
@@ -1377,7 +1377,7 @@ class RegularSolid:
 
     # We do not want to clutter our serialisation with previous property value state.
     # Also, self.prevsizes contains Quantity objects which don't JSON-serialise
-    def __getstate__(self): 
+    def __getstate__(self):
         return None
     def __setstate__(self,state):
         self.prevcode = None
@@ -1390,7 +1390,7 @@ class RegularSolid:
             if sizes[i]!=self.prevsizes[i] and self.prevsizes[i]!=None:
                 keepsize = self.sizenames[i]
                 break
-        
+
         presetcode = [e[0] for e in self.enums["Presets"] if e[1]==obj.Presets][0]
         if presetcode!="0" and presetcode!=self.prevcode: # The user has selected a new preset
                 source,vtrunc,etrunc,dual,snub = self.p[presetcode]
@@ -1405,15 +1405,15 @@ class RegularSolid:
                 presetcode = "0" if (presetcode[0]=="d")==dual else "d"+presetcode if dual else presetcode[1:]
                 obj.Presets = [e[1] for e in self.enums["Presets"] if e[0]==presetcode][0]
         self.prevcode = presetcode
-        
+
         bpy_verts,bpy_faces = createSolid(source,vtrunc,etrunc,dual,snub)
-        
+
         faces = []
         for face in bpy_faces:
             verts = [bpy_verts[vi] for vi in face]+[bpy_verts[face[0]]]
             polygon=Part.makePolygon(verts)
             faces.append(Part.Face(polygon))
-            
+
         v0 = Vector(0,0,0)
         s0 = Part.Point(v0).toShape()
         origsizes = (
@@ -1430,13 +1430,13 @@ class RegularSolid:
                 break
 
         obj.Midradius,obj.Inradius,obj.Circumradius,obj.LongEdge,obj.ShortEdge = self.prevsizes = tuple(os*scale for os in origsizes)
-        
+
         shell = Part.makeShell(faces).scaled(scale,v0)
         solid = Part.makeSolid(shell)
         obj.Shape = solid
-        
- 
-class RegularSolidCommand:    
+
+
+class RegularSolidCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/regularsolid.svg',
                 'Accel' : "Shift+R",
@@ -1450,7 +1450,7 @@ class RegularSolidCommand:
         ViewProviderBox(obj.ViewObject, "RegularSolid")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
-        
+
     def IsActive(self):
         return FreeCAD.ActiveDocument!=None
 
