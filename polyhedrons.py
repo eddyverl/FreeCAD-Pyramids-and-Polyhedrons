@@ -147,8 +147,12 @@ class ViewProviderBox:
         pass
 
     def getIcon(self):
-        #return str(FreeCAD.getUserAppDataDir()) + 'Mod' + '/Pyramids-and-Polyhedrons/Resources/Icons/' + (self.obj_name).lower() + '.svg'
-        return getWorkbenchFolder() + "/Resources/Icons/' + (self.obj_name).lower() + '.svg'"
+        return (
+            getWorkbenchFolder()
+            + "/Resources/Icons/"
+            + (self.obj_name).lower()
+            + ".svg"
+        )
 
     def __getstate__(self):
         return None
@@ -808,7 +812,7 @@ class IcosahedronTrCommand:
                 'ToolTip' : "Generate a Truncated Icosahedron (football)"}
 
     def Activated(self):
-        obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Icosahedron_truncated")
+        obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "IcosahedronTruncated")
         Icosahedron_truncated(obj)
         #obj.ViewObject.Proxy=0
         ViewProviderBox(obj.ViewObject, "Icosahedron_trunc")
@@ -971,10 +975,10 @@ class GeodesicSphereCommand:
                 'ToolTip' : "Generate Geodesic Spheres"}
 
     def Activated(self):
-        obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Geodesic sphere")
+        obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "GeodesicSphere")
         Geodesic_sphere(obj)
         #obj.ViewObject.Proxy=0
-        ViewProviderBox(obj.ViewObject, "Geodesic sphere")
+        ViewProviderBox(obj.ViewObject, "Geodesic_sphere")
         FreeCAD.ActiveDocument.recompute()
         FreeCADGui.SendMsgToActiveView("ViewFit")
         return
@@ -1444,7 +1448,7 @@ class RegularSolidCommand:
                 'ToolTip' : "Generate a Regular Solid"}
 
     def Activated(self):
-        obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","RegularSolid")
+        obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "RegularSolid")
         RegularSolid(obj)
         #obj.ViewObject.Proxy=0
         ViewProviderBox(obj.ViewObject, "RegularSolid")
