@@ -26,8 +26,6 @@
 # Version 01.07
 
 
-
-
 # Version 01.02  (2020-01-15)
 # added geodesic sphere
 
@@ -59,6 +57,8 @@ import Part
 import math
 import sys
 from FreeCAD import Base
+
+translate = FreeCAD.Qt.translate
 
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
     vertexes = []
@@ -171,14 +171,49 @@ class Pyramid:
     side2value = 0
     anglez = 0
 
-    def __init__(self, obj, sidescount = 5,radius_bottom = 2 , radius_top = 4, height = 10, angz = 0):
-        obj.addProperty("App::PropertyLength","Radius1","Pyramid","Radius of the pyramid").Radius1=radius_bottom
-        obj.addProperty("App::PropertyLength","Radius2","Pyramid","Radius of the pyramid").Radius2=radius_top
-        obj.addProperty("App::PropertyLength","Height","Pyramid","Height of the pyramid").Height = height
-        obj.addProperty("App::PropertyInteger","Sidescount","Pyramid","Sidescount of the pyramid").Sidescount = sidescount
-        obj.addProperty("App::PropertyLength","Sidelength1","Pyramid","Sidelength1 of the pyramid")
-        obj.addProperty("App::PropertyLength","Sidelength2","Pyramid","Sidelength2 of the pyramid")
-        obj.addProperty("App::PropertyAngle","Z_rotation","Pyramid","alfa angle around Z").Z_rotation = angz
+    def __init__(self, obj, sidescount=5, radius_bottom=2, radius_top=4, height=10, angz=0):
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius1",
+            "Pyramid",
+            translate("Properties tooltips", "Radius of the pyramid"),
+        ).Radius1 = radius_bottom
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius2",
+            "Pyramid",
+            translate("Properties tooltips", "Radius of the pyramid"),
+        ).Radius2 = radius_top
+        obj.addProperty(
+            "App::PropertyLength",
+            "Height",
+            "Pyramid",
+            translate("Properties tooltips", "Height of the pyramid"),
+        ).Height = height
+        obj.addProperty(
+            "App::PropertyInteger",
+            "Sidescount",
+            "Pyramid",
+            translate("Properties tooltips", "Sidescount of the pyramid"),
+        ).Sidescount = sidescount
+        obj.addProperty(
+            "App::PropertyLength",
+            "Sidelength1",
+            "Pyramid",
+            translate("Properties tooltips", "Sidelength1 of the pyramid"),
+        )
+        obj.addProperty(
+            "App::PropertyLength",
+            "Sidelength2",
+            "Pyramid",
+            translate("Properties tooltips", "Sidelength2 of the pyramid"),
+        )
+        obj.addProperty(
+            "App::PropertyAngle",
+            "Z_rotation",
+            "Pyramid",
+            translate("Properties tooltips", "alfa angle around Z"),
+        ).Z_rotation = angz
 
         obj.Proxy = self
 
@@ -250,8 +285,8 @@ class PyramidCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/pyramid.svg',
                 'Accel' : "Shift+P",
-                'MenuText': "Pyramid",
-                'ToolTip' : "Generate a Pyramid with any number of sides"}
+                'MenuText': translate("Commands", "Pyramid"),
+                'ToolTip' : translate("Commands", "Generate a Pyramid with any number of sides")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Pyramid")   # see https://www.freecadweb.org/wiki/Creating_a_FeaturePython_Box,_Part_II
@@ -284,8 +319,18 @@ class Tetrahedron:
 
     radiusvalue = 0
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Tetrahedron","Radius of the tetrahedron").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Tetrahedron","Sidelength of the tetrahedron")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Tetrahedron",
+            translate("Properties tooltips", "Radius of the tetrahedron"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Tetrahedron",
+            translate("Properties tooltips", "Sidelength of the tetrahedron"),
+        )
         obj.Proxy = self
 
 
@@ -322,8 +367,8 @@ class TetrahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/tetrahedron.svg',
                 'Accel' : "Shift+T",
-                'MenuText': "Tetrahedron",
-                'ToolTip' : "Generate a Tetrahedron"}
+                'MenuText': translate("Commands", "Tetrahedron"),
+                'ToolTip' : translate("Commands", "Generate a Tetrahedron")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Tetrahedron")
@@ -350,8 +395,18 @@ class Hexahedron:
     radiusvalue = 0
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Hexahedron","Radius of the hexahedron").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Hexahedron","Sidelength of the hexahedron")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Hexahedron",
+            translate("Properties tooltips", "Radius of the hexahedron"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Hexahedron",
+            translate("Properties tooltips", "Sidelength of the hexahedron"),
+        )
         obj.Proxy = self
 
     def execute(self, obj):
@@ -392,8 +447,8 @@ class HexahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/hexahedron.svg',
                 'Accel' : "Shift+H",
-                'MenuText': "Hexahedron",
-                'ToolTip' : "Generate a Hexahedron"}
+                'MenuText': translate("Commands", "Hexahedron"),
+                'ToolTip' : translate("Commands", "Generate a Hexahedron")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Hexahedron")
@@ -419,8 +474,18 @@ class Octahedron:
     radiusvalue = 0
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Octahedron","Radius of the octahedron").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Octahedron","Sidelength of the octahedron")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Octahedron",
+            translate("Properties tooltips", "Radius of the octahedron"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Octahedron",
+            translate("Properties tooltips", "Sidelength of the octahedron"),
+        )
         obj.Proxy = self
 
     def execute (self,obj):
@@ -461,8 +526,8 @@ class OctahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/octahedron.svg',
                 'Accel' : "Shift+O",
-                'MenuText': "Octahedron",
-                'ToolTip' : "Generate a Octahedron"}
+                'MenuText': translate("Commands", "Octahedron"),
+                'ToolTip' : translate("Commands", "Generate a Octahedron")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Octahedron")
@@ -489,8 +554,18 @@ class Dodecahedron:
     radiusvalue = 0
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Dodecahedron","Radius of the dodecahedron").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Dodecahedron","Sidelength of the dodecahedron")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Dodecahedron",
+            translate("Properties tooltips", "Radius of the dodecahedron"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Dodecahedron",
+            translate("Properties tooltips", "Sidelength of the dodecahedron"),
+        )
         obj.Proxy = self
 
 
@@ -558,8 +633,8 @@ class DodecahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/dodecahedron.svg',
                 'Accel' : "Shift+D",
-                'MenuText': "Dodecahedron",
-                'ToolTip' : "Generate a Dodecahedron"}
+                'MenuText': translate("Commands", "Dodecahedron"),
+                'ToolTip' : translate("Commands", "Generate a Dodecahedron")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Dodecahedron")
@@ -586,8 +661,18 @@ class Icosahedron:
     radiusvalue = 0
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Icosahedron","Radius of the icosahedron").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Icosahedron","Sidelength of the icosahedron")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Icosahedron",
+            translate("Properties tooltips", "Radius of the icosahedron"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Icosahedron",
+            translate("Properties tooltips", "Sidelength of the icosahedron"),
+        )
         obj.Proxy = self
 
 
@@ -649,8 +734,8 @@ class IcosahedronCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron.svg',
                 'Accel' : "Shift+I",
-                'MenuText': "Icosahedron",
-                'ToolTip' : "Generate a Icosahedron"}
+                'MenuText': translate("Commands", "Icosahedron"),
+                'ToolTip' : translate("Commands", "Generate a Icosahedron")}
 
     def Activated(self):
         obj=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Icosahedron")
@@ -677,8 +762,18 @@ class Icosahedron_truncated:
     radiusvalue = 0
 
     def __init__(self, obj, radius=5):
-        obj.addProperty("App::PropertyLength","Radius","Icosahedron_truncated","Radius").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Icosahedron_truncated","Sidelength")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Icosahedron_truncated",
+            translate("Properties tooltips", "Radius"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Icosahedron_truncated",
+            translate("Properties tooltips", "Sidelength"),
+        )
         obj.Proxy = self
 
     def execute (self,obj):
@@ -808,8 +903,8 @@ class IcosahedronTrCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron_trunc.svg',
                 'Accel' : "Shift+F",
-                'MenuText': "Icosahedron truncated",
-                'ToolTip' : "Generate a Truncated Icosahedron (football)"}
+                'MenuText': translate("Commands", "Icosahedron truncated"),
+                'ToolTip' : translate("Commands", "Generate a Truncated Icosahedron (football)")}
 
     def Activated(self):
         obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "IcosahedronTruncated")
@@ -865,9 +960,27 @@ class Geodesic_sphere:
 
 
     def __init__(self, obj, radius=5, div=2):
-        obj.addProperty("App::PropertyLength","Radius","Geodesic","Radius of the sphere").Radius=radius
-        obj.addProperty("App::PropertyLength","Side","Geodesic","Sidelength of the triangles (approximative!)")
-        obj.addProperty("App::PropertyInteger","DividedBy","Geodesic","The sides of the basic polyhedron are divided in ... (value 1 to 10)").DividedBy = div
+        obj.addProperty(
+            "App::PropertyLength",
+            "Radius",
+            "Geodesic",
+            translate("Properties tooltips", "Radius of the sphere"),
+        ).Radius = radius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Side",
+            "Geodesic",
+            translate("Properties tooltips", "Sidelength of the triangles (approximative!)"),
+        )
+        obj.addProperty(
+            "App::PropertyInteger",
+            "DividedBy",
+            "Geodesic",
+            translate(
+                "Properties tooltips",
+                "The sides of the basic polyhedron are divided in ... (value 1 to 10)",
+            ),
+        ).DividedBy = div
 
         obj.Proxy = self
 
@@ -971,8 +1084,8 @@ class GeodesicSphereCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/geodesic_sphere.svg',
                 'Accel' : "Shift+G",
-                'MenuText': "Geodesic sphere",
-                'ToolTip' : "Generate Geodesic Spheres"}
+                'MenuText': translate("Commands", "Geodesic sphere"),
+                'ToolTip' : translate("Commands", "Generate Geodesic Spheres")}
 
     def Activated(self):
         obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "GeodesicSphere")
@@ -1353,26 +1466,86 @@ class RegularSolid:
     sizenames = ["Midradius", "Inradius", "Circumradius", "LongEdge", "ShortEdge"]
 
     def __init__(self, obj, midradius=5):
-        obj.addProperty("App::PropertyLength","Midradius","RegularSolid","Radius of inscribed sphere touching closest edge").Midradius=midradius
-        obj.addProperty("App::PropertyLength","Inradius","RegularSolid","Radius of inscribed sphere touching closest face")
-        obj.addProperty("App::PropertyLength","Circumradius","RegularSolid","Radius of inscribed sphere touching furthest vertex")
-        obj.addProperty("App::PropertyLength","LongEdge","RegularSolid","Length of longest edge")
-        obj.addProperty("App::PropertyLength","ShortEdge","RegularSolid","Length of shortest edge")
-        obj.addProperty("App::PropertyEnumeration","KeepSize","RegularSolid","What drives solid size when changing construction")
+        obj.addProperty(
+            "App::PropertyLength",
+            "Midradius",
+            "RegularSolid",
+            translate("Properties tooltips", "Radius of inscribed sphere touching closest edge"),
+        ).Midradius = midradius
+        obj.addProperty(
+            "App::PropertyLength",
+            "Inradius",
+            "RegularSolid",
+            translate("Properties tooltips", "Radius of inscribed sphere touching closest face"),
+        )
+        obj.addProperty(
+            "App::PropertyLength",
+            "Circumradius",
+            "RegularSolid",
+            translate("Properties tooltips", "Radius of inscribed sphere touching furthest vertex"),
+        )
+        obj.addProperty(
+            "App::PropertyLength",
+            "LongEdge",
+            "RegularSolid",
+            translate("Properties tooltips", "Length of longest edge"),
+        )
+        obj.addProperty(
+            "App::PropertyLength",
+            "ShortEdge",
+            "RegularSolid",
+            translate("Properties tooltips", "Length of shortest edge"),
+        )
+        obj.addProperty(
+            "App::PropertyEnumeration",
+            "KeepSize",
+            "RegularSolid",
+            translate("Properties tooltips", "What drives solid size when changing construction"),
+        )
         obj.KeepSize = self.sizenames
         obj.KeepSize = self.sizenames[0]
-        obj.addProperty("App::PropertyEnumeration","Source","RegularSolid","Initiating body")
+        obj.addProperty(
+            "App::PropertyEnumeration",
+            "Source",
+            "RegularSolid",
+            translate("Properties tooltips", "Initiating body"),
+        )
         obj.Source = [e[1] for e in self.enums["Source"]]
-        obj.Source = [e[1] for e in self.enums["Source"] if len(e)>=4 and e[3]][0]
-        obj.addProperty("App::PropertyFloat","Vtrunc","RegularSolid","Amount of vertex truncation/elongation").Vtrunc = 0.0
-        obj.addProperty("App::PropertyFloat","Etrunc","RegularSolid","Amount of edge truncation").Etrunc = 0.0
-        obj.addProperty("App::PropertyEnumeration","Snub","RegularSolid","Create the snub version")
+        obj.Source = [e[1] for e in self.enums["Source"] if len(e) >= 4 and e[3]][0]
+        obj.addProperty(
+            "App::PropertyFloat",
+            "Vtrunc",
+            "RegularSolid",
+            translate("Properties tooltips", "Amount of vertex truncation/elongation"),
+        ).Vtrunc = 0.0
+        obj.addProperty(
+            "App::PropertyFloat",
+            "Etrunc",
+            "RegularSolid",
+            translate("Properties tooltips", "Amount of edge truncation"),
+        ).Etrunc = 0.0
+        obj.addProperty(
+            "App::PropertyEnumeration",
+            "Snub",
+            "RegularSolid",
+            translate("Properties tooltips", "Create the snub version"),
+        )
         obj.Snub = [e[1] for e in self.enums["Snub"]]
-        obj.Snub = [e[1] for e in self.enums["Snub"] if len(e)>=4 and e[3]][0]
-        obj.addProperty("App::PropertyBool","Dual","RegularSolid","Create the dual of the current solid").Dual = False
-        obj.addProperty("App::PropertyEnumeration","Presets","RegularSolid","Preset parameters for some hard names")
+        obj.Snub = [e[1] for e in self.enums["Snub"] if len(e) >= 4 and e[3]][0]
+        obj.addProperty(
+            "App::PropertyBool",
+            "Dual",
+            "RegularSolid",
+            translate("Properties tooltips", "Create the dual of the current solid"),
+        ).Dual = False
+        obj.addProperty(
+            "App::PropertyEnumeration",
+            "Presets",
+            "RegularSolid",
+            translate("Properties tooltips", "Preset parameters for some hard names"),
+        )
         obj.Presets = [e[1] for e in self.enums["Presets"]]
-        obj.Presets = [e[1] for e in self.enums["Presets"] if len(e)>=4 and e[3]][0]
+        obj.Presets = [e[1] for e in self.enums["Presets"] if len(e) >= 4 and e[3]][0]
         obj.Proxy = self
         # We could implement onChanged(self,opj,prop) to handle property value changes, but its easier to keep property previous values around
         self.prevcode = None
@@ -1444,8 +1617,8 @@ class RegularSolidCommand:
     def GetResources(self):
         return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/regularsolid.svg',
                 'Accel' : "Shift+R",
-                'MenuText': "Regular Solid",
-                'ToolTip' : "Generate a Regular Solid"}
+                'MenuText': translate("Commands", "Regular Solid"),
+                'ToolTip' : translate("Commands", "Generate a Regular Solid")}
 
     def Activated(self):
         obj = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "RegularSolid")
