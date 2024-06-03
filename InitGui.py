@@ -66,9 +66,14 @@ class PolyhydronsWorkbench(Workbench):
     )
 
     def __init__(self):
-        resourcespath = self.getWorkbenchFolder() + "/Resources/"
+        import pyramids_utils
 
-        self.__class__.Icon = resourcespath + "Icons/Pyramids-and-Polyhedrons_workbench_icon.svg"
+        self.__class__.Icon = os.path.join(
+            pyramids_utils.getWorkbenchFolder(),
+            "Resources",
+            "Icons",
+            "Pyramids-and-Polyhedrons_workbench_icon.svg",
+        )
 
     def Initialize(self):
         """This function is executed when FreeCAD starts"""

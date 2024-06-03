@@ -51,16 +51,19 @@
 # icosahedron_truncated : now radius of the result, not of the base icosahedron
 
 
-
-import FreeCAD,FreeCADGui
-import Part
 import math
-import sys
+import os
+
+import FreeCAD
+import FreeCADGui
+import Part
 from FreeCAD import Base
 
 import pyramids_utils
 
 QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
+
+icons_dir = os.path.join(pyramids_utils.getWorkbenchFolder(), "Resources", "Icons")
 
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
     vertexes = []
@@ -90,34 +93,6 @@ def horizontal_regular_pyramid_vertexes(sidescount,radius,z, anglez = 0): # angl
         vertex = (0,0,z)
         vertexes.append(vertex)
     return vertexes
-
-
-def getWorkbenchFolder():
-
-    import os.path
-    from os import path
-
-    import workbenchfolders
-
-    basedir = str(FreeCAD.getUserAppDataDir())
-    folder = ""
-
-    for tryfolder in workbenchfolders.recommended_folders:
-            if path.exists(basedir + tryfolder):
-                    folder = basedir + tryfolder
-                    return folder
-
-    for tryfolder in workbenchfolders.user_chosen_folders:
-            if path.exists(basedir + tryfolder):
-                    folder = basedir + tryfolder
-                    return folder
-            if path.exists(tryfolder):
-                    folder = tryfolder
-                    return folder
-
-    return ""
-
-
 
 
 # ===========================================================================
@@ -150,10 +125,10 @@ class ViewProviderBox:
 
     def getIcon(self):
         return (
-            getWorkbenchFolder()
-            + "/Resources/Icons/"
-            + (self.obj_name).lower()
-            + ".svg"
+            os.path.join(
+                pyramids_utils.getWorkbenchFolder(), "Resources", "Icons",
+                (self.obj_name).lower() + ".svg"
+            )
         )
 
     def __getstate__(self):
@@ -1129,9 +1104,10 @@ FreeCADGui.addCommand('Geodesic_sphere',GeodesicSphereCommand())
 # The following code section provides an object that can be parameterised to produce any of the platonic, archimedean and catalan
 # solids, and more, by starting with one of the five platonic solids and then truncating vertices respectively edges.
 
-from FreeCAD import Vector
-from math import sqrt
 from functools import reduce
+from math import sqrt
+
+from FreeCAD import Vector
 
 # The python code of the following three functions "vSum", "source" and "createSolid" is taken from Blenders add_mesh_solid.py
 # from the "Add Mesh Extra Objects" addon, authored by Dreampainter, licensed as SPDX-License-Identifier GPL-2.0-or-later,
