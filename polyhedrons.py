@@ -51,14 +51,19 @@
 # icosahedron_truncated : now radius of the result, not of the base icosahedron
 
 
-
-import FreeCAD,FreeCADGui
-import Part
 import math
-import sys
+import os
+
+import FreeCAD
+import FreeCADGui
+import Part
 from FreeCAD import Base
 
+import pyramids_utils
+
 translate = FreeCAD.Qt.translate
+
+icons_dir = os.path.join(pyramids_utils.getWorkbenchFolder(), "Resources", "Icons")
 
 def horizontal_regular_polygon_vertexes(sidescount,radius,z, startangle = 0):
     vertexes = []
@@ -88,34 +93,6 @@ def horizontal_regular_pyramid_vertexes(sidescount,radius,z, anglez = 0): # angl
         vertex = (0,0,z)
         vertexes.append(vertex)
     return vertexes
-
-
-def getWorkbenchFolder():
-
-    import os.path
-    from os import path
-
-    import workbenchfolders
-
-    basedir = str(FreeCAD.getUserAppDataDir())
-    folder = ""
-
-    for tryfolder in workbenchfolders.recommended_folders:
-            if path.exists(basedir + tryfolder):
-                    folder = basedir + tryfolder
-                    return folder
-
-    for tryfolder in workbenchfolders.user_chosen_folders:
-            if path.exists(basedir + tryfolder):
-                    folder = basedir + tryfolder
-                    return folder
-            if path.exists(tryfolder):
-                    folder = tryfolder
-                    return folder
-
-    return ""
-
-
 
 
 # ===========================================================================
@@ -148,10 +125,10 @@ class ViewProviderBox:
 
     def getIcon(self):
         return (
-            getWorkbenchFolder()
-            + "/Resources/Icons/"
-            + (self.obj_name).lower()
-            + ".svg"
+            os.path.join(
+                pyramids_utils.getWorkbenchFolder(), "Resources", "Icons",
+                (self.obj_name).lower() + ".svg"
+            )
         )
 
     def __getstate__(self):
@@ -283,7 +260,7 @@ class Pyramid:
 class PyramidCommand:
 
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/pyramid.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "pyramid.svg"),
                 'Accel' : "Shift+P",
                 'MenuText': translate("Commands", "Pyramid"),
                 'ToolTip' : translate("Commands", "Generate a Pyramid with any number of sides")}
@@ -365,7 +342,7 @@ class Tetrahedron:
 class TetrahedronCommand:
 
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/tetrahedron.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "tetrahedron.svg"),
                 'Accel' : "Shift+T",
                 'MenuText': translate("Commands", "Tetrahedron"),
                 'ToolTip' : translate("Commands", "Generate a Tetrahedron")}
@@ -445,7 +422,7 @@ class Hexahedron:
 class HexahedronCommand:
 
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/hexahedron.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "hexahedron.svg"),
                 'Accel' : "Shift+H",
                 'MenuText': translate("Commands", "Hexahedron"),
                 'ToolTip' : translate("Commands", "Generate a Hexahedron")}
@@ -524,7 +501,7 @@ class Octahedron:
 class OctahedronCommand:
 
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/octahedron.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "octahedron.svg"),
                 'Accel' : "Shift+O",
                 'MenuText': translate("Commands", "Octahedron"),
                 'ToolTip' : translate("Commands", "Generate a Octahedron")}
@@ -631,7 +608,7 @@ class Dodecahedron:
 
 class DodecahedronCommand:
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/dodecahedron.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "dodecahedron.svg"),
                 'Accel' : "Shift+D",
                 'MenuText': translate("Commands", "Dodecahedron"),
                 'ToolTip' : translate("Commands", "Generate a Dodecahedron")}
@@ -732,7 +709,7 @@ class Icosahedron:
 
 class IcosahedronCommand:
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "icosahedron.svg"),
                 'Accel' : "Shift+I",
                 'MenuText': translate("Commands", "Icosahedron"),
                 'ToolTip' : translate("Commands", "Generate a Icosahedron")}
@@ -901,7 +878,7 @@ class Icosahedron_truncated:
 
 class IcosahedronTrCommand:
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/icosahedron_trunc.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "icosahedron_trunc.svg"),
                 'Accel' : "Shift+F",
                 'MenuText': translate("Commands", "Icosahedron truncated"),
                 'ToolTip' : translate("Commands", "Generate a Truncated Icosahedron (football)")}
@@ -1082,7 +1059,7 @@ class Geodesic_sphere:
 
 class GeodesicSphereCommand:
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/geodesic_sphere.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "geodesic_sphere.svg"),
                 'Accel' : "Shift+G",
                 'MenuText': translate("Commands", "Geodesic sphere"),
                 'ToolTip' : translate("Commands", "Generate Geodesic Spheres")}
@@ -1109,9 +1086,10 @@ FreeCADGui.addCommand('Geodesic_sphere',GeodesicSphereCommand())
 # The following code section provides an object that can be parameterised to produce any of the platonic, archimedean and catalan
 # solids, and more, by starting with one of the five platonic solids and then truncating vertices respectively edges.
 
-from FreeCAD import Vector
-from math import sqrt
 from functools import reduce
+from math import sqrt
+
+from FreeCAD import Vector
 
 # The python code of the following three functions "vSum", "source" and "createSolid" is taken from Blenders add_mesh_solid.py
 # from the "Add Mesh Extra Objects" addon, authored by Dreampainter, licensed as SPDX-License-Identifier GPL-2.0-or-later,
@@ -1615,7 +1593,7 @@ class RegularSolid:
 
 class RegularSolidCommand:
     def GetResources(self):
-        return {'Pixmap'  : getWorkbenchFolder() + '/Resources/Icons/regularsolid.svg',
+        return {'Pixmap'  : os.path.join(icons_dir, "regularsolid.svg"),
                 'Accel' : "Shift+R",
                 'MenuText': translate("Commands", "Regular Solid"),
                 'ToolTip' : translate("Commands", "Generate a Regular Solid")}
