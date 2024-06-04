@@ -43,49 +43,40 @@
 # version 01.08   (2023-08-21)
 # no printing of the workbenchfolders  (issue bij Alex Neufeld)
 
+import os
 
-class PolyhydronsWorkbench (Workbench):
+import FreeCADGui
 
-    MenuText = "Pyramids-and-Polyhedrons"
-    ToolTip = "A workbench for generating pyramids, polyhedrons and geodesic spheres"
-    #Icon = """paste here the contents of a 16x16 xpm icon"""
+import pyramids_utils
 
-
-    def getWorkbenchFolder(self):
-
-
-        import os.path
-        from os import path
-
-        import workbenchfolders
-
-        #print (workbenchfolders.recommended_folders)       # (issue bij Alex Neufeld)
-
-        basedir = str(FreeCAD.getUserAppDataDir())
-        folder = ""
-
-        for tryfolder in workbenchfolders.recommended_folders:
-                if path.exists(basedir + tryfolder):
-                        folder = basedir + tryfolder
-                        return folder
-
-        for tryfolder in workbenchfolders.user_chosen_folders:
-                if path.exists(basedir + tryfolder):
-                        folder = basedir + tryfolder
-                        return folder
-                if path.exists(tryfolder):
-                        folder = tryfolder
-                        return folder
-
-        return ""
+# Add translations path
+FreeCADGui.addLanguagePath(
+    os.path.join(
+        pyramids_utils.getWorkbenchFolder(), "Resources", "Translations"
+    )
+)
+FreeCADGui.updateLocale()
 
 
+class PolyhydronsWorkbench(Workbench):
+    import  FreeCAD
 
+    translate = FreeCAD.Qt.translate
+
+    MenuText = translate("P&P", "Pyramids-and-Polyhedrons")
+    ToolTip = translate(
+        "P&P", "A workbench for generating pyramids, polyhedrons and geodesic spheres"
+    )
 
     def __init__(self):
-        resourcespath = self.getWorkbenchFolder() + "/Resources/"
+        import pyramids_utils
 
-        self.__class__.Icon = resourcespath + "Icons/Pyramids-and-Polyhedrons_workbench_icon.svg"
+        self.__class__.Icon = os.path.join(
+            pyramids_utils.getWorkbenchFolder(),
+            "Resources",
+            "Icons",
+            "Pyramids-and-Polyhedrons_workbench_icon.svg",
+        )
 
     def Initialize(self):
         """This function is executed when FreeCAD starts"""
