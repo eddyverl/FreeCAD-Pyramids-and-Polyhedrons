@@ -134,15 +134,6 @@ class ViewProviderBox:
     def updateData(self, fp, prop):
         return
 
-    def getDisplayModes(self,obj):
-        return "As Is"
-
-    def getDefaultDisplayMode(self):
-        return "As Is"
-
-    def setDisplayMode(self,mode):
-        return "As Is"
-
     def onChanged(self, vobj, prop):
         pass
 
