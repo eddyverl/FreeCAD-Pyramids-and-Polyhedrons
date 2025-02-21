@@ -43,58 +43,51 @@
 # version 01.08   (2023-08-21)
 # no printing of the workbenchfolders  (issue bij Alex Neufeld)
 
+import os
 
-class PolyhydronsWorkbench (Workbench):
+import FreeCAD
+import FreeCADGui
 
-    MenuText = "Pyramids-and-Polyhedrons"
-    ToolTip = "A workbench for generating pyramids, polyhedrons and geodesic spheres"
-    #Icon = """paste here the contents of a 16x16 xpm icon"""
+import pyramids_utils
 
-
-    def getWorkbenchFolder(self):
-
-
-        import os.path
-        from os import path
-
-        import workbenchfolders
-
-        #print (workbenchfolders.recommended_folders)       # (issue bij Alex Neufeld)
-
-        basedir = str(FreeCAD.getUserAppDataDir())
-        folder = ""
-
-        for tryfolder in workbenchfolders.recommended_folders:
-                if path.exists(basedir + tryfolder):
-                        folder = basedir + tryfolder
-                        return folder
-
-        for tryfolder in workbenchfolders.user_chosen_folders:
-                if path.exists(basedir + tryfolder):
-                        folder = basedir + tryfolder
-                        return folder
-                if path.exists(tryfolder):
-                        folder = tryfolder
-                        return folder
-
-        return ""
+# Add translations path
+FreeCADGui.addLanguagePath(
+    os.path.join(pyramids_utils.getWorkbenchFolder(), "Resources", "Translations")
+)
+FreeCADGui.updateLocale()
 
 
+class PolyhydronsWorkbench(Workbench):
+    translate = FreeCAD.Qt.translate
 
+    MenuText = translate("Workbench", "Pyramids-and-Polyhedrons")
+    ToolTip = translate(
+        "Workbench", "A workbench for generating pyramids, polyhedrons and geodesic spheres"
+    )
 
     def __init__(self):
-        resourcespath = self.getWorkbenchFolder() + "/Resources/"
+        import pyramids_utils
 
-        self.__class__.Icon = resourcespath + "Icons/Pyramids-and-Polyhedrons_workbench_icon.svg"
+        self.__class__.Icon = os.path.join(
+            pyramids_utils.getWorkbenchFolder(),
+            "Resources",
+            "Icons",
+            "Pyramids-and-Polyhedrons_workbench_icon.svg",
+        )
 
     def Initialize(self):
         """This function is executed when FreeCAD starts"""
         import polyhedrons # import here all the needed files that create your FreeCAD commands
         self.list = ["Pyramid","Tetrahedron","Hexahedron","Octahedron","Dodecahedron","Icosahedron","Icosahedron_truncated",
                      "Geodesic_sphere","RegularSolid"] # A list of command names created in the line above
-        self.appendToolbar("Pyramids-and-Polyhedrons",self.list) # creates a new toolbar with your commands
-        self.appendMenu("Pyramids-and-Polyhedrons",self.list) # creates a new menu
         #self.appendMenu(["An existing Menu","My submenu"],self.list) # appends a submenu to an existing menu
+        QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
+        self.appendToolbar(
+            QT_TRANSLATE_NOOP("Workbench", "Pyramids-and-Polyhedrons"), self.list
+        )  # creates a new toolbar with your commands
+        self.appendMenu(
+            QT_TRANSLATE_NOOP("Workbench", "Pyramids-and-Polyhedrons"), self.list
+        )  # creates a new menu
 
     def Activated(self):
         """This function is executed when the workbench is activated"""
@@ -107,10 +100,14 @@ class PolyhydronsWorkbench (Workbench):
     def ContextMenu(self, recipient):
         """This is executed whenever the user right-clicks on screen"""
         # "recipient" will be either "view" or "tree"
-        self.appendContextMenu("Pyramids-and-Polyhedrons",self.list) # add commands to the context menu
+        QT_TRANSLATE_NOOP = FreeCAD.Qt.QT_TRANSLATE_NOOP
+        self.appendContextMenu(
+            QT_TRANSLATE_NOOP("Workbench", "Pyramids-and-Polyhedrons"), self.list
+        )  # add commands to the context menu
 
     def GetClassName(self):
         # this function is mandatory if this is a full python workbench
         return "Gui::PythonWorkbench"
+
 
 Gui.addWorkbench(PolyhydronsWorkbench())
